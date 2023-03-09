@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/bluStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/iconBlu"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:scaleType="centerInside"
+        app:srcCompat="@android:drawable/stat_sys_data_bluetooth" />
+
+    <Button
+        android:id="@+id/onBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Turn on" />
+
+    <Button
+        android:id="@+id/offBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Turn Off" />
+
+    <Button
+        android:id="@+id/discoverableBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Discoverable" />
+
+    <Button
+        android:id="@+id/pairedBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Get Paired" />
+
+    <TextView
+        android:id="@+id/listDv"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_weight="1" />
+</LinearLayout>
