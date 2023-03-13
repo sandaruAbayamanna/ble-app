@@ -13,9 +13,9 @@ import androidx.core.app.ActivityCompat;
 public class BLEscanner {
 
     private BluetoothAdapter bluetoothAdapter;
-    private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
+    private BluetoothLeScanner bluetoothLeScanner;
     private boolean scanning;
-    private final Handler handler = new Handler();
+    private Handler handler;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
