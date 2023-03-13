@@ -10,8 +10,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
     private boolean scanning;
-
-    private static final long SCAN_PERIOD = 10000;
 
     TextView BluStatus, DeviceList;
     ImageView iconB;
@@ -118,17 +114,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 BLEscanner bleScanner = new BLEscanner();
                 bleScanner.scanLeDevice();
+
             }
 
         });
 
-        //bluetooth pairing button
-        pairedBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-
-            }
-        });
     }
 }

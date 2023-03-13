@@ -3,11 +3,11 @@ package com.example.bleapp;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
-import android.os.Build;
 
 
 
-public class LeDeviceListAdapter {
+//BLE scan results devices listdown
+public class LeDeviceListAdapter{
 
     private final LeDeviceListAdapter leDeviceListAdapter = new LeDeviceListAdapter();
 
@@ -16,6 +16,8 @@ public class LeDeviceListAdapter {
                 @Override
                 public void onScanResult(int callbackType, ScanResult result) {
                          super.onScanResult(callbackType, result);
+
+                         //scanned devices
                         leDeviceListAdapter.addDevice(result.getDevice());
                         leDeviceListAdapter.notifyDataSetChanged();
                 }
