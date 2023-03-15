@@ -2,9 +2,7 @@ package com.example.bleapp;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -13,7 +11,6 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,8 +19,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Set;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,13 +31,18 @@ public class MainActivity extends AppCompatActivity {
 
     TextView BluStatus, DeviceList;
     ImageView iconB;
-    Button onBtn, offBtn, discoverableBtn;
+    Button onBtn, offBtn, scannerBtn;
 
-    public static class BLEscanner{
-        public BluetoothLeScanner bluetoothLeScanner;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public class BLEscanner{
+
+        BluetoothManager bluetoothManager = getSystemService(BluetoothManager.class);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+
+        public BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();;
+
         private boolean scanning;
-        public Handler handler;
-
+         Handler handler =new Handler();
         // Stops scanning after 10 seconds.
         private static final long SCAN_PERIOD = 10000;
 
@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         @SuppressLint("MissingPermission")
         public void scanLeDevice() {
-
-
             if (!scanning) {
                 // Stops scanning after a predefined scan period.
                 handler.postDelayed(new Runnable() {
@@ -60,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         scanning = false;
+
                         bluetoothLeScanner.stopScan(obj.leScanCallback);
                     }
                 }, SCAN_PERIOD);
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static class LeDeviceListAdapter{
 
-        public LeDeviceListAdapter leDeviceListAdapter = new LeDeviceListAdapter();
+        public LeDeviceListAdapter obj;
 
         // Device scan callback.
         ScanCallback leScanCallback = new ScanCallback() {
@@ -84,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 super.onScanResult(callbackType, result);
 
                 //scanned devices
-                leDeviceListAdapter.addDevice(result.getDevice());
-                leDeviceListAdapter.notifyDataSetChanged();
+                obj.addDevice(result.getDevice());
+                obj.notifyDataSetChanged();
             }
         };
 
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         iconB = findViewById(R.id.iconBlu);
         onBtn = findViewById(R.id.onBtn);
         offBtn = findViewById(R.id.offBtn);
-        discoverableBtn = findViewById(R.id.discoverableBtn);
+        scannerBtn = findViewById(R.id.scannerBtn);
 
         //checking the bluetooth availability
         if (bluetoothAdapter == null) {
@@ -170,11 +169,12 @@ public class MainActivity extends AppCompatActivity {
 
 
         //bluetooth scanning button
-        discoverableBtn.setOnClickListener(new View.OnClickListener() {
+        scannerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 BLEscanner bleScanner = new BLEscanner();
                 bleScanner.scanLeDevice();
+
 
             }
 
