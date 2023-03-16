@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Set;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -170,10 +172,21 @@ public class MainActivity extends AppCompatActivity {
 
         //bluetooth scanning button
         scannerBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
                 BLEscanner bleScanner = new BLEscanner();
                 bleScanner.scanLeDevice();
+                if(bluetoothAdapter.isEnabled()){
+                    DeviceList.setText("Available Devices");
+                    @SuppressLint("MissingPermission")
+                    Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
+                    for (BluetoothDevice device:devices){
+                        DeviceList.append("\nDevice" +device.getName()+"," +device);
+                    }
+                }else {
+                    Toast.makeText(MainActivity.this, "Please turn on bluetooth to scan devices", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
