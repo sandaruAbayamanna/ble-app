@@ -2,6 +2,8 @@ package com.example.bleapp;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -20,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -28,12 +32,17 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ENABLE_BT = 0;
     //private static final int REQUEST_DISCOVER_BT = 1;
 
+    //defining list to data bind to the recyclerview
+    private List<LeDeviceListAdapter> ledeviceLists = new ArrayList<>();
+
+    private leDeviceAdapter leDevadpt;
   //  public BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
 
 
     TextView BluStatus, DeviceList;
     ImageView iconB;
     Button onBtn, offBtn, scannerBtn;
+    RecyclerView recyclerView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public class BLEscanner{
@@ -121,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         onBtn = findViewById(R.id.onBtn);
         offBtn = findViewById(R.id.offBtn);
         scannerBtn = findViewById(R.id.scannerBtn);
+        recyclerView = findViewById(R.id.recyclerView);
 
         //checking the bluetooth availability
         if (bluetoothAdapter == null) {
@@ -188,6 +198,24 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please turn on bluetooth to scan devices", Toast.LENGTH_SHORT).show();
                 }
 
+                //append data to the recycler view
+
+                /*if(bluetoothAdapter.isEnabled()){
+
+                    @SuppressLint("MissingPermission")
+                    Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
+                    for (BluetoothDevice device:devices){
+                        recyclerView.setAdapter("\nDevice" +device.getName()+"," +device);
+                    }
+                }else {
+                    Toast.makeText(MainActivity.this, "Please turn on bluetooth to scan devices", Toast.LENGTH_SHORT).show();
+                }*/
+
+                //ledeviceLists.add(bleScanner.obj);
+
+                leDevadpt = new leDeviceAdapter(ledeviceLists);
+                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                recyclerView.setAdapter(leDevadpt);
 
             }
 
