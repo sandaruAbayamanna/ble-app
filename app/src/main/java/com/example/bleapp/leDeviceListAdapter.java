@@ -14,7 +14,7 @@ public class leDeviceListAdapter {
         leDeviceListAdapter.mLeDevices = mLeDevices;
     }
 
-    // Device scan callback.
+    // Device scan callback
     static ScanCallback leScanCallback =
             new ScanCallback() {
                 @Override
