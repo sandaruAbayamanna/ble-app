@@ -21,9 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 
@@ -33,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     //private static final int REQUEST_DISCOVER_BT = 1;
 
     //defining list to data bind to the recyclerview
-    private List<LeDeviceListAdapter> ledeviceLists = new ArrayList<>();
+   // private List<LeDeviceListAdapter> ledeviceLists = new ArrayList<>();
 
     private leDeviceAdapter leDevadpt;
   //  public BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
@@ -44,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Button onBtn, offBtn, scannerBtn;
     RecyclerView recyclerView;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+   /* @RequiresApi(api = Build.VERSION_CODES.M)
     public class BLEscanner{
 
         BluetoothManager bluetoothManager = getSystemService(BluetoothManager.class);
@@ -55,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
         private boolean scanning;
          Handler handler =new Handler();
         // Stops scanning after 10 seconds.
-        private static final long SCAN_PERIOD = 10000;
+        private static final long SCAN_PERIOD = 10000;*/
 
-        LeDeviceListAdapter obj = new LeDeviceListAdapter();
+      //  LeDeviceListAdapter obj = new LeDeviceListAdapter();
 
 
-        @SuppressLint("MissingPermission")
-        public void scanLeDevice() {
+       // @SuppressLint("MissingPermission")
+        /*public void scanLeDevice() {
             if (!scanning) {
                 // Stops scanning after a predefined scan period.
                 handler.postDelayed(new Runnable() {
@@ -80,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 scanning = false;
                 bluetoothLeScanner.stopScan(obj.leScanCallback);
             }
-        }
+        }*/
     }
 
-    public static class LeDeviceListAdapter{
+   /* public static class LeDeviceListAdapter{
 
         public LeDeviceListAdapter obj;
 
@@ -105,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         private void addDevice(BluetoothDevice device) {
 
         }
-    }
+    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -117,11 +114,6 @@ public class MainActivity extends AppCompatActivity {
 
             BluetoothManager bluetoothManager = getSystemService(BluetoothManager.class);
             BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-
-
-
-
-
 
 
         BluStatus = findViewById(R.id.bluStatus);
@@ -185,8 +177,7 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("MissingPermission")
             @Override
             public void onClick(View view) {
-                BLEscanner bleScanner = new BLEscanner();
-                bleScanner.scanLeDevice();
+
                 if(bluetoothAdapter.isEnabled()){
                     DeviceList.setText("Available Devices");
                     @SuppressLint("MissingPermission")
@@ -213,9 +204,9 @@ public class MainActivity extends AppCompatActivity {
 
                 //ledeviceLists.add(bleScanner.obj);
 
-                leDevadpt = new leDeviceAdapter(ledeviceLists);
+                /*leDevadpt = new leDeviceAdapter(ledeviceLists);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                recyclerView.setAdapter(leDevadpt);
+                recyclerView.setAdapter(leDevadpt);*/
 
             }
 
