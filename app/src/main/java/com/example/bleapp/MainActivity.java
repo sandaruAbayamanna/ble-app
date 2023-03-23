@@ -11,14 +11,21 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     public static final int REQUEST_ENABLE_BT = 1;
     //init scanLeDevice class
@@ -27,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     TextView BluStatus, DeviceList;
     ImageView iconB;
     Button onBtn, offBtn, scannerBtn;
+
+    private HashMap<String, bleDevice> mBleDevicesHashMap;
+    private ArrayList<bleDevice> mBleDevicesArrayList;
+    private listAdapterBleDevices adapter;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -39,11 +50,24 @@ public class MainActivity extends AppCompatActivity {
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
 
         BluStatus = findViewById(R.id.bluStatus);
-        DeviceList = findViewById(R.id.listDv);
+        //no need remove once finished
+        // DeviceList = findViewById(R.id.listDv);
         iconB = findViewById(R.id.iconBlu);
         onBtn = findViewById(R.id.onBtn);
         offBtn = findViewById(R.id.offBtn);
         scannerBtn = findViewById(R.id.scannerBtn);
+
+        mScanLeDevice = new scanLeDevice(this, 7500, -75);
+
+        //create new objects
+        mBleDevicesHashMap = new HashMap<>();
+        mBleDevicesArrayList = new ArrayList<>();
+
+        adapter = new listAdapterBleDevices(this,R.layout.btle_device_list_item, mBleDevicesArrayList);
+
+        ListView listView = new ListView(this);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
 
 
         //checking the bluetooth availability
@@ -100,12 +124,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 if(bluetoothAdapter.isEnabled()){
-                    DeviceList.setText("Available Devices");
-                    @SuppressLint("MissingPermission")
-                    Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
-                    for (BluetoothDevice device:devices){
-                        DeviceList.append("\nDevice" +device.getName()+"," +device);
-                    }
+                    ((ScrollView) findViewById(R.id.scrollView)).addView(listView);
                 }else {
                     Toast.makeText(MainActivity.this, "Please turn on bluetooth to scan devices", Toast.LENGTH_SHORT).show();
                 }
@@ -117,11 +136,61 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void addDevice(BluetoothDevice device, int new_rssi) {
+    public void addDevice(BluetoothDevice device, int rssi) {
+        String address = device.getAddress();
+        if (!mBleDevicesHashMap.containsKey(address)) {
+            bleDevice btleDevice = new bleDevice(device);
+            btleDevice.setRssi(rssi);
 
+            mBleDevicesHashMap.put(address, btleDevice);
+            mBleDevicesArrayList.add(btleDevice);
+        }
+        else {
+            Objects.requireNonNull(mBleDevicesHashMap.get(address)).setRssi(rssi);
+        }
+
+        adapter.notifyDataSetChanged();
     }
 
     public void stopScan() {
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.scannerBtn:
+                Utils.toast(getApplicationContext(), "Scan Button Pressed");
+
+                if (!mScanLeDevice.isScanning()) {
+                    startScan();
+                }
+                else {
+                    stopScan();
+                }
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void startScan(){
+        //btn_Scan.setText("Scanning...");
+
+        mBleDevicesArrayList.clear();
+        mBleDevicesHashMap.clear();
+
+        adapter.notifyDataSetChanged();
+
+        mScanLeDevice.start();
     }
 }

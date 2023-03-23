@@ -54,10 +54,10 @@
         android:layout_weight="1"
         android:text="Scan" />
 
-    <TextView
-        android:id="@+id/listDv"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="424dp"
-        android:layout_weight="1" />
+        android:layout_height="269dp"
+        android:layout_weight="1"
+        android:id="@+id/scrollView"/>
 
 </LinearLayout>
