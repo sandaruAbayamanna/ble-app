@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //checking the bluetooth availability
         if (bluetoothAdapter == null) {
-            BluStatus.setText("Bluetooth is not available");
+            BluStatus.setText(R.string.bl_unavailable);
         } else {
-            BluStatus.setText("Bluetooth is available");
+            BluStatus.setText(R.string.bl_available);
         }
 
         //setting up the bluetooth icon

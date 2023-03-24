@@ -49,7 +49,7 @@ public class listAdapterBleDevices extends ArrayAdapter<bleDevice> {
             tv_name.setText(device.getName());
         }
         else {
-            tv_name.setText("No Name");
+            tv_name.setText(R.string.no_name);
         }
         TextView tv_rssi = (TextView) convertView.findViewById(R.id.tv_rssi);
         tv_rssi.setText("RSSI: " + Integer.toString(rssi));
@@ -59,7 +59,7 @@ public class listAdapterBleDevices extends ArrayAdapter<bleDevice> {
             tv_macaddr.setText(device.getAddress());
         }
         else {
-            tv_macaddr.setText("No Address");
+            tv_macaddr.setText(R.string.no_address);
         }
 
         return convertView;
