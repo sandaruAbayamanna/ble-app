@@ -28,28 +28,30 @@ public class scanLeDevice {
     private int signalStrength;
 
     //constructor
-    public scanLeDevice(MainActivity mainActivity,long SCAN_PERIOD,int signalStrength ) {
+    public scanLeDevice(MainActivity mainActivity, long SCAN_PERIOD, int signalStrength) {
         ma = mainActivity;
         mHandler = new Handler();
 
         this.SCAN_PERIOD = SCAN_PERIOD;
         this.signalStrength = signalStrength;
 
-        final BluetoothManager bluetoothManager=(BluetoothManager) ma.getSystemService(Context.BLUETOOTH_SERVICE);
+        final BluetoothManager bluetoothManager = (BluetoothManager) ma.getSystemService(Context.BLUETOOTH_SERVICE);
 
         mbluetoothAdapter = bluetoothManager.getAdapter();
 
     }
 
-    public boolean isScanning(){
+    public boolean isScanning() {
         return mScanning;
     }
+
     public void start() {
-        if (!Utils.checkBluetooth(mbluetoothAdapter)){
-        Utils.requestUserBluetooth(ma);
-        //refer mainActivity stop method
-        ma.stopScan();
-        }else {
+
+        if (!Utils.checkBluetooth(mbluetoothAdapter)) {
+            Utils.requestUserBluetooth(ma);
+            //refer mainActivity stop method
+            ma.stopScan();
+        } else {
             scannerDevice(true);
         }
     }
@@ -58,8 +60,8 @@ public class scanLeDevice {
         scannerDevice(false);
     }
 
-    private void scannerDevice(final boolean enable){
-        if(enable && !mScanning) {
+    private void scannerDevice(final boolean enable) {
+        if (enable && !mScanning) {
             // Stops scanning after a predefined scan period.
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -70,14 +72,13 @@ public class scanLeDevice {
                 }
             }, SCAN_PERIOD);
 
-            mScanning= true;
+            mScanning = true;
             mbluetoothAdapter.startLeScan(mLeScanCallback);
         } else {
             mScanning = false;
             mbluetoothAdapter.stopLeScan(mLeScanCallback);
         }
     }
-
     // Device scan callback.
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {

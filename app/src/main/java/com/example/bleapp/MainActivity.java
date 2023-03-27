@@ -1,7 +1,9 @@
 package com.example.bleapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -24,6 +26,11 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
+import android.Manifest;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -39,6 +46,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<bleDevice> mBleDevicesArrayList;
     private listAdapterBleDevices adapter;
 
+    private final int REQUEST_LOCATION_PERMISSION = 1;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
+    public void requestLocationPermission() {
+        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
+        if(EasyPermissions.hasPermissions(this, perms)) {
+            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", REQUEST_LOCATION_PERMISSION, perms);
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
     @Override
@@ -46,12 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         BluetoothManager bluetoothManager = getSystemService(BluetoothManager.class);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
 
         BluStatus = findViewById(R.id.bluStatus);
-        //no need remove once finished
-        // DeviceList = findViewById(R.id.listDv);
         iconB = findViewById(R.id.iconBlu);
         onBtn = findViewById(R.id.onBtn);
         offBtn = findViewById(R.id.offBtn);
@@ -123,11 +148,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
 
-                if(bluetoothAdapter.isEnabled()){
+                ((ScrollView) findViewById(R.id.scrollView)).addView(listView);
+                /*if(bluetoothAdapter.isEnabled()){
                     ((ScrollView) findViewById(R.id.scrollView)).addView(listView);
                 }else {
                     Toast.makeText(MainActivity.this, "Please turn on bluetooth to scan devices", Toast.LENGTH_SHORT).show();
-                }
+                }*/
 
             }
 
@@ -161,6 +187,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
@@ -193,4 +230,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mScanLeDevice.start();
     }
+
+
+
+
 }

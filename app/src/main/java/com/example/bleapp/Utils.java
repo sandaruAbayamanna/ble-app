@@ -1,5 +1,6 @@
 package com.example.bleapp;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -7,6 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+import android.Manifest;
 
 public class Utils {
     public static boolean checkBluetooth(BluetoothAdapter bluetoothAdapter) {
@@ -28,4 +35,5 @@ public class Utils {
         toast.setGravity(Gravity.CENTER | Gravity.BOTTOM, 0, 0);
         toast.show();
     }
+
 }
