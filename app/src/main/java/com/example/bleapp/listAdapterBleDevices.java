@@ -6,62 +6,81 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class listAdapterBleDevices extends ArrayAdapter<bleDevice> {
+public class listAdapterBleDevices extends BaseAdapter {
 
     //init array
     ArrayList<bleDevice> devices;
     int layoutResourceID;
     Activity activity;
+    private LayoutInflater mInflator;
 
     //constructor
     public listAdapterBleDevices(Activity activity, int resource, ArrayList<bleDevice> objects) {
-        super(activity.getApplicationContext(),resource,objects);
+        super();
         this.activity = activity;
         layoutResourceID = resource;
         devices = objects;
     }
 
+    @Override
+    public int getCount() {
+        return 0;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
     //getting ble device attribute
     @Override
-    public View getView(int position, View convertView,ViewGroup parent) {
-        if (convertView == null) {
-            LayoutInflater inflater =
-                    (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(layoutResourceID, parent, false);
+    public View getView(int i, View view,ViewGroup viewGroup) {
+        ViewHolder viewHolder;
+        if (view == null) {
+            view =mInflator.inflate(R.layout.btle_device_list_item, null);
+            viewHolder = new ViewHolder();
+            viewHolder.deviceAddress= (TextView) view.findViewById(R.id.tv_macaddr);
+            viewHolder.deviceName = (TextView) view.findViewById(R.id.tv_name);
+            viewHolder.rssi=(TextView)view.findViewById(R.id.tv_rssi);
+            view.setTag(viewHolder);
+        }else {
+            viewHolder = (ViewHolder) view.getTag();
         }
 
-        bleDevice device = devices.get(position);
+        bleDevice device = devices.get(i);
         String name = device.getName();
         String address = device.getAddress();
         int rssi = device.getRssi();
 
-        TextView tv_name = (TextView) convertView.findViewById(R.id.tv_name);
-
         if (name != null && name.length() > 0) {
-            tv_name.setText(device.getName());
+            viewHolder.deviceName.setText(name);
         }
         else {
-            tv_name.setText(R.string.no_name);
-        }
-        TextView tv_rssi = (TextView) convertView.findViewById(R.id.tv_rssi);
-        tv_rssi.setText("RSSI: " + Integer.toString(rssi));
-
-        TextView tv_macaddr = (TextView) convertView.findViewById(R.id.tv_macaddr);
-        if (address != null && address.length() > 0) {
-            tv_macaddr.setText(device.getAddress());
-        }
-        else {
-            tv_macaddr.setText(R.string.no_address);
+            viewHolder.deviceName.setText("unknown devices");
+            viewHolder.deviceAddress.setText(device.getAddress());
+            viewHolder.rssi.setText((rssi));
         }
 
-        return convertView;
+        return view;
+    }
+
+    static class ViewHolder{
+        TextView deviceName;
+        TextView deviceAddress;
+        TextView rssi;
     }
 }

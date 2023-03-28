@@ -1,19 +1,18 @@
 package com.example.bleapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,15 +20,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Set;
-
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
-
-import android.Manifest;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -46,24 +43,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList<bleDevice> mBleDevicesArrayList;
     private listAdapterBleDevices adapter;
 
-    private final int REQUEST_LOCATION_PERMISSION = 1;
+    //private final int REQUEST_LOCATION_PERMISSION = 1;
+    private static final int PERMISSION_REQUEST_CODE = 2;
+    private final static String TAG = MainActivity.class.getSimpleName();
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+
+        if(requestCode == PERMISSION_REQUEST_CODE)
+        {
+            //Do something based on grantResults
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "coarse location permission granted");
+            }
+            else
+            {
+                Log.d(TAG, "coarse location permission denied");
+            }
+        }
     }
 
-    @AfterPermissionGranted(REQUEST_LOCATION_PERMISSION)
-    public void requestLocationPermission() {
-        String[] perms = {Manifest.permission.ACCESS_FINE_LOCATION};
-        if(EasyPermissions.hasPermissions(this, perms)) {
-            Toast.makeText(this, "Permission already granted", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            EasyPermissions.requestPermissions(this, "Please grant the location permission", REQUEST_LOCATION_PERMISSION, perms);
-        }
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("SetTextI18n")
@@ -71,6 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.d(TAG, "Request Location Permissions:");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+        }
 
 
         BluetoothManager bluetoothManager = getSystemService(BluetoothManager.class);
@@ -88,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBleDevicesHashMap = new HashMap<>();
         mBleDevicesArrayList = new ArrayList<>();
 
-        adapter = new listAdapterBleDevices(this,R.layout.btle_device_list_item, mBleDevicesArrayList);
+        adapter = new listAdapterBleDevices(this,R.layout.activity_main, mBleDevicesArrayList);
 
         ListView listView = new ListView(this);
         listView.setAdapter(adapter);
@@ -148,12 +156,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
 
-                ((ScrollView) findViewById(R.id.scrollView)).addView(listView);
-                /*if(bluetoothAdapter.isEnabled()){
-                    ((ScrollView) findViewById(R.id.scrollView)).addView(listView);
-                }else {
-                    Toast.makeText(MainActivity.this, "Please turn on bluetooth to scan devices", Toast.LENGTH_SHORT).show();
-                }*/
+                startScan();
+                /*adapter = new listAdapterBleDevices();
+                setListAdapter(adapter);
+                scanLeDevice(true);*/
 
             }
 
@@ -196,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
     }
-
     @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override

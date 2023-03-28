@@ -15,6 +15,9 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 @SuppressLint("MissingPermission")
@@ -27,6 +30,7 @@ public class scanLeDevice {
     private long SCAN_PERIOD = 10000;
     private int signalStrength;
 
+    Logger logger = Logger.getLogger(scanLeDevice.class.getName());
     //constructor
     public scanLeDevice(MainActivity mainActivity, long SCAN_PERIOD, int signalStrength) {
         ma = mainActivity;
@@ -53,6 +57,7 @@ public class scanLeDevice {
             ma.stopScan();
         } else {
             scannerDevice(true);
+
         }
     }
 
@@ -74,6 +79,7 @@ public class scanLeDevice {
 
             mScanning = true;
             mbluetoothAdapter.startLeScan(mLeScanCallback);
+          //  logger.log(Level.INFO,"logging{0}","scan working");
         } else {
             mScanning = false;
             mbluetoothAdapter.stopLeScan(mLeScanCallback);

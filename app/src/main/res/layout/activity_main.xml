@@ -54,10 +54,30 @@
         android:layout_weight="1"
         android:text="Scan" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="269dp"
+        android:layout_height="253dp"
         android:layout_weight="1"
-        android:id="@+id/scrollView"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_rssi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_macaddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -25,6 +25,7 @@ public class leDeviceListAdapter {
                 }
             };
 
+
     private static void notifyDataSetChanged() {
 
     }

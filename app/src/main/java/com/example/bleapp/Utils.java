@@ -10,9 +10,6 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 import android.Manifest;
 
 public class Utils {
@@ -35,5 +32,6 @@ public class Utils {
         toast.setGravity(Gravity.CENTER | Gravity.BOTTOM, 0, 0);
         toast.show();
     }
+
 
 }
