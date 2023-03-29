@@ -2,6 +2,7 @@ package com.example.bleapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class listAdapterBleDevices extends BaseAdapter {
         if (view == null) {
             view =mInflator.inflate(R.layout.btle_device_list_item, null);
             viewHolder = new ViewHolder();
+            Log.i("listAdapterbleDevices","creating viewHolder");//not logging
             viewHolder.deviceAddress= (TextView) view.findViewById(R.id.tv_macaddr);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.tv_name);
             viewHolder.rssi=(TextView)view.findViewById(R.id.tv_rssi);

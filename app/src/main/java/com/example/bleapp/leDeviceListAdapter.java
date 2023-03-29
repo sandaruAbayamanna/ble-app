@@ -3,6 +3,7 @@ package com.example.bleapp;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class leDeviceListAdapter {
                 public void onScanResult(int callbackType, ScanResult result) {
                     super.onScanResult(callbackType, result);
                     leDeviceListAdapter.addDevice(result.getDevice());
+                    Log.i("leDeviceListAdapter","add scancallbacks to adapter");
                     leDeviceListAdapter.notifyDataSetChanged();
                 }
             };
@@ -33,6 +35,7 @@ public class leDeviceListAdapter {
     private static void addDevice(BluetoothDevice device) {
         if (!mLeDevices.contains(device)){
             mLeDevices.add(device);
+            Log.i("leDeviceListAdapter","add device method called");
         }
     }
 }

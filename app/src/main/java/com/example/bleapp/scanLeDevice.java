@@ -12,11 +12,11 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.Console;
 
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -30,7 +30,7 @@ public class scanLeDevice {
     private long SCAN_PERIOD = 10000;
     private int signalStrength;
 
-    Logger logger = Logger.getLogger(scanLeDevice.class.getName());
+
     //constructor
     public scanLeDevice(MainActivity mainActivity, long SCAN_PERIOD, int signalStrength) {
         ma = mainActivity;
@@ -79,10 +79,22 @@ public class scanLeDevice {
 
             mScanning = true;
             mbluetoothAdapter.startLeScan(mLeScanCallback);
-          //  logger.log(Level.INFO,"logging{0}","scan working");
+
+            //additional code to log and check whether call backs are returning
+            if (mLeScanCallback == null){
+                Log.i("scanLeDevice.java","call back is null");
+            }else{
+                Log.i("scanLeDevice.java","call back is not null"+ String.valueOf(mLeScanCallback));
+                System.out.println(mLeScanCallback);
+
+            }
+
+            Log.i("scanLeDevice.java","scanning begins .....");
+
         } else {
             mScanning = false;
             mbluetoothAdapter.stopLeScan(mLeScanCallback);
+            Log.i("scanLeDevice.java","scanning stopped....");
         }
     }
     // Device scan callback.
@@ -94,10 +106,12 @@ public class scanLeDevice {
 
                     final int new_rssi = rssi;
                     if (rssi > signalStrength) {
+                        Log.i("scanLeDevice.java","rssi checking"+rssi);
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 ma.addDevice(device, new_rssi);
+                                Log.i("scanLeDevice.java","adding found devices....");
                             }
                         });
                     }

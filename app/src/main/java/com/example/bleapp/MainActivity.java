@@ -55,11 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //Do something based on grantResults
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Location Permission granted...", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "coarse location permission granted");
             }
             else
             {
+                Toast.makeText(this, "Location Permission denied...", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "coarse location permission denied");
             }
         }
@@ -156,10 +157,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
 
-                startScan();
-                /*adapter = new listAdapterBleDevices();
-                setListAdapter(adapter);
-                scanLeDevice(true);*/
+                Utils.toast(getApplicationContext(), "Scan Button Pressed");
+
+                //startScan();
+
+                if (!mScanLeDevice.isScanning()) {
+                    startScan();
+                    Log.i("MainActivity.java","scan button pressed");
+                }
+                else {
+                    stopScan();
+                }
 
             }
 
@@ -210,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.scannerBtn:
                 Utils.toast(getApplicationContext(), "Scan Button Pressed");
+               // Log.i("scan button","scan button pressed");
 
                 if (!mScanLeDevice.isScanning()) {
                     startScan();
@@ -234,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.notifyDataSetChanged();
 
         mScanLeDevice.start();
+        Log.i("mainActivity.java","start scanning method called");
     }
 
 
