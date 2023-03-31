@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements /*View.OnClickListener,*/ AdapterView.OnItemClickListener {
 
     public static final int REQUEST_ENABLE_BT = 1;
     //init scanLeDevice class
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (!mScanLeDevice.isScanning()) {
                     startScan();
-                    Log.i("MainActivity.java","scan button pressed");
+                    Log.i("MainActivity.java","scan method start through btn pressed!!!!!!!");
                 }
                 else {
                     stopScan();
@@ -210,15 +210,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
     }
-    @SuppressLint("NonConstantResourceId")
+   /* @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.scannerBtn:
-                Utils.toast(getApplicationContext(), "Scan Button Pressed");
-               // Log.i("scan button","scan button pressed");
+               // Utils.toast(getApplicationContext(), "Scan Button Pressed");
+                Log.i("scan button","on click scan button pressed");
 
                 if (!mScanLeDevice.isScanning()) {
                     startScan();
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
-    }
+    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void startScan(){

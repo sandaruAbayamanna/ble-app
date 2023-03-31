@@ -106,12 +106,13 @@ public class scanLeDevice {
 
                     final int new_rssi = rssi;
                     if (rssi > signalStrength) {
-                        Log.i("scanLeDevice.java","rssi checking"+rssi);
+                       // Log.i("scanLeDevice.java","rssi checking"+rssi); //working
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 ma.addDevice(device, new_rssi);
-                                Log.i("scanLeDevice.java","adding found devices....");
+                                Log.i("shakaboom","devices that are aired :"+device);
+                                //Log.i("scanLeDevice.java","adding found devices....");//working
                             }
                         });
                     }
