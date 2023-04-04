@@ -12,11 +12,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements /*View.OnClickListener,*/ AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements /*View.OnClickListener,*/ AdapterView.OnItemClickListener{
 
     public static final int REQUEST_ENABLE_BT = 1;
     //init scanLeDevice class
@@ -93,15 +91,12 @@ public class MainActivity extends AppCompatActivity implements /*View.OnClickLis
 
         mScanLeDevice = new scanLeDevice(this, 7500, -75);
 
+        //
+
         //create new objects
         mBleDevicesHashMap = new HashMap<>();
         mBleDevicesArrayList = new ArrayList<>();
 
-        adapter = new listAdapterBleDevices(this,R.layout.activity_main, mBleDevicesArrayList);
-
-        ListView listView = new ListView(this);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
 
 
         //checking the bluetooth availability
@@ -176,39 +171,58 @@ public class MainActivity extends AppCompatActivity implements /*View.OnClickLis
 
     }
 
-    public void addDevice(BluetoothDevice device, int rssi) {
-        String address = device.getAddress();
-        if (!mBleDevicesHashMap.containsKey(address)) {
-            bleDevice btleDevice = new bleDevice(device);
-            btleDevice.setRssi(rssi);
+   /* @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        bleDevice device = (bleDevice) adapter.getDevice(position);
 
-            mBleDevicesHashMap.put(address, btleDevice);
-            mBleDevicesArrayList.add(btleDevice);
+    }*/
+
+    /*public void addDevice(BluetoothDevice device, int rssi) {
+        String address = device.getAddress();
+        *//*if (adapter.contains(device)){
+            adapter.add(device);
+        }*//*
+        if (!mBleDevicesHashMap.containsKey(address)) {
+            Log.i("Hash map","hashhhhhhhh");
+            device.setRssi(rssi);
+
+            mBleDevicesHashMap.put(address, device);
+            mBleDevicesArrayList.add(device);
+            Log.i("bla bla","bleeeeee...."+device);
         }
         else {
             Objects.requireNonNull(mBleDevicesHashMap.get(address)).setRssi(rssi);
         }
 
         adapter.notifyDataSetChanged();
-    }
+    }*/
 
     public void stopScan() {
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        //
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // Initializes list view adapter.
+        adapter = new listAdapterBleDevices(this,R.layout.activity_main, mBleDevicesArrayList);
+        Log.i("init","init list view adapter");//ok
+
+        ListView listView = new ListView(this);
+        listView.setAdapter(adapter);
+        Log.i("list view","set the list view adapter");//ok
+        //listView.setOnItemClickListener(this);
+
     }
    /* @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -240,13 +254,17 @@ public class MainActivity extends AppCompatActivity implements /*View.OnClickLis
         mBleDevicesArrayList.clear();
         mBleDevicesHashMap.clear();
 
-        adapter.notifyDataSetChanged();
+       // adapter.notifyDataSetChanged();
 
         mScanLeDevice.start();
         Log.i("mainActivity.java","start scanning method called");
+
+
     }
 
 
-
-
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        bleDevice device = (bleDevice) adapter.getDevice(position);
+    }
 }

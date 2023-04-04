@@ -56,6 +56,7 @@ public class scanLeDevice {
             //refer mainActivity stop method
             ma.stopScan();
         } else {
+
             scannerDevice(true);
 
         }
@@ -79,25 +80,27 @@ public class scanLeDevice {
 
             mScanning = true;
             mbluetoothAdapter.startLeScan(mLeScanCallback);
+           // Log.i("start scan","start Le scanning");
 
-            //additional code to log and check whether call backs are returning
+            /*//additional code to log and check whether call backs are returning//ok
             if (mLeScanCallback == null){
-                Log.i("scanLeDevice.java","call back is null");
+                Log.i("scanLeDevice.java","call back is null");//ok
             }else{
-                Log.i("scanLeDevice.java","call back is not null"+ String.valueOf(mLeScanCallback));
+                Log.i("scanLeDevice.java","call back is not null"+ String.valueOf(mLeScanCallback));//ok
                 System.out.println(mLeScanCallback);
 
-            }
+            }*/
 
-            Log.i("scanLeDevice.java","scanning begins .....");
+          //  Log.i("scanLeDevice.java","scanning begins .....");//ok
 
         } else {
             mScanning = false;
             mbluetoothAdapter.stopLeScan(mLeScanCallback);
-            Log.i("scanLeDevice.java","scanning stopped....");
+           // Log.i("scanLeDevice.java","scanning stopped....");
         }
     }
     // Device scan callback.
+    //
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
 
@@ -110,8 +113,9 @@ public class scanLeDevice {
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                ma.addDevice(device, new_rssi);
-                                Log.i("shakaboom","devices that are aired :"+device);
+                                //ma.addDevice(device, new_rssi);
+                                listAdapterBleDevices.addDevice(device, new_rssi);//adding to the list adapter
+                                Log.i("shakaboom","devices that are aired :"+device+" "+"RSSI:"+new_rssi);//showing MAC Addresses
                                 //Log.i("scanLeDevice.java","adding found devices....");//working
                             }
                         });

@@ -1,20 +1,17 @@
 package com.example.bleapp;
 
 import android.app.Activity;
-import android.content.Context;
+import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class listAdapterBleDevices extends BaseAdapter {
 
@@ -23,6 +20,7 @@ public class listAdapterBleDevices extends BaseAdapter {
     int layoutResourceID;
     Activity activity;
     private LayoutInflater mInflator;
+    //com
 
     //constructor
     public listAdapterBleDevices(Activity activity, int resource, ArrayList<bleDevice> objects) {
@@ -46,12 +44,42 @@ public class listAdapterBleDevices extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
+     public Object getDevice(int position){
+        return devices.get(position);
+     }
+    private static HashMap<String, bleDevice> mBleDevicesHashMap;
+    private static ArrayList<bleDevice> mBleDevicesArrayList;
+
+
+    public static void addDevice(BluetoothDevice device, int rssi) {
+        Log.i("in the adapter class","getting results to the add method" +device);
+        String address = device.getAddress();
+        //create new objects
+        mBleDevicesHashMap = new HashMap<>();
+        mBleDevicesArrayList = new ArrayList<>();
+
+        if (!mBleDevicesHashMap.containsKey(address)) {
+            bleDevice btleDevice = new bleDevice(device);
+            btleDevice.setRssi(rssi);
+
+            mBleDevicesHashMap.put(address, btleDevice);
+            mBleDevicesArrayList.add(btleDevice);
+            Log.i("adding to the list","addddddd.."+btleDevice);
+        }
+        else {
+            Objects.requireNonNull(mBleDevicesHashMap.get(address)).setRssi(rssi);
+        }
+
+        //adapter.notifyDataSetChanged();
+    }
 
     //getting ble device attribute
     @Override
     public View getView(int i, View view,ViewGroup viewGroup) {
+        Log.i("view","view called");
         ViewHolder viewHolder;
         if (view == null) {
+            Log.i("view holder","view holder is null");
             view =mInflator.inflate(R.layout.btle_device_list_item, null);
             viewHolder = new ViewHolder();
             Log.i("listAdapterbleDevices","creating viewHolder");//not logging
