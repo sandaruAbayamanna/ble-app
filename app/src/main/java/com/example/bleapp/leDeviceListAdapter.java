@@ -1,3 +1,4 @@
+/*
 package com.example.bleapp;
 
 import android.bluetooth.BluetoothDevice;
@@ -39,3 +40,4 @@ public class leDeviceListAdapter {
         }
     }
 }
+*/

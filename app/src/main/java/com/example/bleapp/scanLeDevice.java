@@ -1,9 +1,7 @@
 package com.example.bleapp;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-import static com.example.bleapp.leDeviceListAdapter.leScanCallback;
-
 import android.annotation.SuppressLint;
+import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 
 import android.bluetooth.BluetoothDevice;
@@ -16,12 +14,11 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import java.io.Console;
 
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 @SuppressLint("MissingPermission")
-public class scanLeDevice {
+public class scanLeDevice extends ListActivity {
 
     private BluetoothAdapter mbluetoothAdapter;
     private MainActivity ma;
@@ -117,6 +114,7 @@ public class scanLeDevice {
                                 listAdapterBleDevices.addDevice(device, new_rssi);//adding to the list adapter
                                 Log.i("shakaboom","devices that are aired :"+device+" "+"RSSI:"+new_rssi);//showing MAC Addresses
                                 //Log.i("scanLeDevice.java","adding found devices....");//working
+
                             }
                         });
                     }

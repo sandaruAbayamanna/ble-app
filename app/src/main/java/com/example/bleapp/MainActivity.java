@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements /*View.OnClickListener,*/ AdapterView.OnItemClickListener{
+public class MainActivity extends AppCompatActivity{
 
     public static final int REQUEST_ENABLE_BT = 1;
     //init scanLeDevice class
@@ -214,10 +214,10 @@ public class MainActivity extends AppCompatActivity implements /*View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        // Initializes list view adapter.
-        adapter = new listAdapterBleDevices(this,R.layout.activity_main, mBleDevicesArrayList);
-        Log.i("init","init list view adapter");//ok
 
+        // Initializes list view adapter.
+        adapter = new listAdapterBleDevices(this,R.layout.btle_device_list_item, mBleDevicesArrayList);
+        Log.i("init","init list view adapter");//ok
         ListView listView = new ListView(this);
         listView.setAdapter(adapter);
         Log.i("list view","set the list view adapter");//ok
@@ -260,11 +260,6 @@ public class MainActivity extends AppCompatActivity implements /*View.OnClickLis
         Log.i("mainActivity.java","start scanning method called");
 
 
-    }
 
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        bleDevice device = (bleDevice) adapter.getDevice(position);
     }
 }

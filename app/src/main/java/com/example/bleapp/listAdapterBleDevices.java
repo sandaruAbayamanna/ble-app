@@ -20,7 +20,7 @@ public class listAdapterBleDevices extends BaseAdapter {
     int layoutResourceID;
     Activity activity;
     private LayoutInflater mInflator;
-    //com
+
 
     //constructor
     public listAdapterBleDevices(Activity activity, int resource, ArrayList<bleDevice> objects) {
@@ -52,7 +52,7 @@ public class listAdapterBleDevices extends BaseAdapter {
 
 
     public static void addDevice(BluetoothDevice device, int rssi) {
-        Log.i("in the adapter class","getting results to the add method" +device);
+       // Log.i("in the adapter class","getting results to the add method" +device);//ok
         String address = device.getAddress();
         //create new objects
         mBleDevicesHashMap = new HashMap<>();
@@ -76,7 +76,7 @@ public class listAdapterBleDevices extends BaseAdapter {
     //getting ble device attribute
     @Override
     public View getView(int i, View view,ViewGroup viewGroup) {
-        Log.i("view","view called");
+        Log.i("view","view called");//not logging
         ViewHolder viewHolder;
         if (view == null) {
             Log.i("view holder","view holder is null");
