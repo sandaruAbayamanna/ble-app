@@ -112,7 +112,7 @@ public class scanLeDevice extends ListActivity {
                             public void run() {
                                 //ma.addDevice(device, new_rssi);
                                 listAdapterBleDevices.addDevice(device, new_rssi);//adding to the list adapter
-                                Log.i("shakaboom","devices that are aired :"+device+" "+"RSSI:"+new_rssi);//showing MAC Addresses
+                                //Log.i("shakaboom","devices that are aired :"+device+" "+"RSSI:"+new_rssi);//showing MAC Addresses
                                 //Log.i("scanLeDevice.java","adding found devices....");//working
 
                             }

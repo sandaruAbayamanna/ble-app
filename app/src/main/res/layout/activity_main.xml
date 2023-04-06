@@ -57,27 +57,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="253dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tv_name"
+        <ListView
+            android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/tv_rssi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
-
-        <TextView
-            android:id="@+id/tv_macaddr"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
-
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </LinearLayout>

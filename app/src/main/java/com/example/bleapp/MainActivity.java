@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -72,6 +73,13 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+      /*  //create the adapter and bind according to new sources
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        adapter = new listAdapterBleDevices(this);
+        listView.setAdapter(adapter);*/
+
 
         Log.d(TAG, "Request Location Permissions:");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
@@ -216,7 +224,7 @@ public class MainActivity extends AppCompatActivity{
         super.onResume();
 
         // Initializes list view adapter.
-        adapter = new listAdapterBleDevices(this,R.layout.btle_device_list_item, mBleDevicesArrayList);
+        adapter = new listAdapterBleDevices(this,R.layout.activity_main, mBleDevicesArrayList);
         Log.i("init","init list view adapter");//ok
         ListView listView = new ListView(this);
         listView.setAdapter(adapter);
@@ -262,4 +270,5 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
-}
+
+   }
