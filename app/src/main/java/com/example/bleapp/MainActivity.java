@@ -78,22 +78,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        listView = findViewById(R.id.list_view);
-        List<bleDevice> devList= new ArrayList<>();
-        //adding lists
-        //how should add????
-       // devList.add(new bleDevice());
 
-        listAdapterBleDevices adapter = new listAdapterBleDevices(this, (ArrayList<bleDevice>) devList);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                bleDevice item = (bleDevice) parent.getItemAtPosition(position);
-                Toast.makeText(MainActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         Log.d(TAG, "Request Location Permissions:");
@@ -186,6 +171,23 @@ public class MainActivity extends AppCompatActivity{
                 else {
                     stopScan();
                 }
+
+                listView = findViewById(R.id.list_view);
+                List<bleDevice> devList= new ArrayList<>();
+                //adding lists
+                //how should add????
+                // devList.add(new bleDevice());
+
+                listAdapterBleDevices adapter = new listAdapterBleDevices(MainActivity.this, (ArrayList<bleDevice>) devList);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        bleDevice item = (bleDevice) parent.getItemAtPosition(position);
+                        Toast.makeText(MainActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
 
