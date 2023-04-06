@@ -18,20 +18,18 @@ import java.util.Objects;
 //Adapter for holding the scanned devices
 public class listAdapterBleDevices extends BaseAdapter {
 
-    //init array
+    //define the array
     ArrayList<bleDevice> mLeDevices;
-    int layoutResourceID;
-    Activity activity;
+    private Context context;
     private LayoutInflater mInflator;
 
 
     //constructor
     @SuppressLint("NewApi")
-    public listAdapterBleDevices(Activity activity, int resource, ArrayList<bleDevice> objects) {
+    public listAdapterBleDevices(Context context, ArrayList<bleDevice> mLeDevices) {
         super();
-        this.activity = activity;
-        layoutResourceID = resource;
-        mLeDevices = objects;
+       this.context = context;
+        this.mLeDevices = mLeDevices;
 
 
     }
@@ -50,9 +48,6 @@ public class listAdapterBleDevices extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-     public bleDevice getDevice(int position){
-        return mLeDevices.get(position);
-     }
     private static HashMap<String, bleDevice> mBleDevicesHashMap;
     private static ArrayList<bleDevice> mBleDevicesArrayList;
 
@@ -87,7 +82,7 @@ public class listAdapterBleDevices extends BaseAdapter {
         if (view == null) {
             Log.i("view holder","view holder is null");
             //inflate the layout
-            view =mInflator.inflate(R.layout.btle_device_list_item, null);
+            view = LayoutInflater.from(context).inflate(R.layout.btle_device_list_item, null);
             //set up the viewHolder
             viewHolder = new ViewHolder();
             Log.i("listAdapterbleDevices","creating viewHolder");//not logging

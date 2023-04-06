@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity{
     private HashMap<String, bleDevice> mBleDevicesHashMap;
     private ArrayList<bleDevice> mBleDevicesArrayList;
     private listAdapterBleDevices adapter;
+
+    private ListView listView;
 
     //private final int REQUEST_LOCATION_PERMISSION = 1;
     private static final int PERMISSION_REQUEST_CODE = 2;
@@ -74,11 +78,22 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listView = findViewById(R.id.list_view);
+        List<bleDevice> devList= new ArrayList<>();
+        //adding lists
+        //how should add????
+       // devList.add(new bleDevice());
 
-      /*  //create the adapter and bind according to new sources
-        ListView listView = (ListView) findViewById(R.id.list_view);
-        adapter = new listAdapterBleDevices(this);
-        listView.setAdapter(adapter);*/
+        listAdapterBleDevices adapter = new listAdapterBleDevices(this, (ArrayList<bleDevice>) devList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                bleDevice item = (bleDevice) parent.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         Log.d(TAG, "Request Location Permissions:");
@@ -99,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
 
         mScanLeDevice = new scanLeDevice(this, 7500, -75);
 
-        //
+
 
         //create new objects
         mBleDevicesHashMap = new HashMap<>();
@@ -216,44 +231,36 @@ public class MainActivity extends AppCompatActivity{
     protected void onStart() {
         super.onStart();
 
-        //
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        // Initializes list view adapter.
-        adapter = new listAdapterBleDevices(this,R.layout.activity_main, mBleDevicesArrayList);
+       /* listView = findViewById(R.id.list_view);----new method
+        List<bleDevice> devList= new ArrayList<>();
+       // devList.add(new bleDevice());
+
+        listAdapterBleDevices adapter = new listAdapterBleDevices(this, (ArrayList<bleDevice>) devList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                bleDevice item = (bleDevice) parent.getItemAtPosition(position);
+                Toast.makeText(MainActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+      /*  // Initializes list view adapter.---old method
+        adapter = new listAdapterBleDevices(this,R.id.activity_main, mBleDevicesArrayList);
         Log.i("init","init list view adapter");//ok
         ListView listView = new ListView(this);
         listView.setAdapter(adapter);
         Log.i("list view","set the list view adapter");//ok
-        //listView.setOnItemClickListener(this);
+        //listView.setOnItemClickListener(this);*/
 
     }
-   /* @SuppressLint("NonConstantResourceId")
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.scannerBtn:
-               // Utils.toast(getApplicationContext(), "Scan Button Pressed");
-                Log.i("scan button","on click scan button pressed");
-
-                if (!mScanLeDevice.isScanning()) {
-                    startScan();
-                }
-                else {
-                    stopScan();
-                }
-
-                break;
-            default:
-                break;
-        }
-    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void startScan(){
