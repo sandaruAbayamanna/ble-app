@@ -176,7 +176,11 @@ public class MainActivity extends AppCompatActivity{
                 List<bleDevice> devList= new ArrayList<>();
                 //adding lists
                 //how should add????
-                // devList.add(new bleDevice());
+                // devList.add(new bleDevice(device));
+                for (bleDevice device : mBleDevicesArrayList){
+                    devList.add(device);
+                    Log.i("dev List","adding to the list view today##");
+                }
 
                 listAdapterBleDevices adapter = new listAdapterBleDevices(MainActivity.this, (ArrayList<bleDevice>) devList);
                 listView.setAdapter(adapter);
