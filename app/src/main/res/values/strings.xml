@@ -5,4 +5,7 @@
     <string name="bl_unavailable">Bluetooth is not available</string>
     <string name="bl_available">Bluetooth is available</string>
     <string name="unkDev">unknown devices</string>
+    <string name="sc">Scan</string>
+    <string name="on">Turn on</string>
+    <string name="off">Turn Off</string>
 </resources>

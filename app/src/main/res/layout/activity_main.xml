@@ -38,21 +38,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Turn on" />
+        android:text="@string/on" />
 
     <Button
         android:id="@+id/offBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Turn Off" />
+        android:text="@string/off" />
 
     <Button
         android:id="@+id/scannerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Scan" />
+        android:text="@string/sc" />
 
     <LinearLayout
         android:layout_width="match_parent"

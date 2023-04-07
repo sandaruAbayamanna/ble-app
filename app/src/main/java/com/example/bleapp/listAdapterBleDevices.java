@@ -19,42 +19,43 @@ import java.util.Objects;
 public class listAdapterBleDevices extends BaseAdapter {
 
     //define the array
-    ArrayList<bleDevice> mLeDevices;
-    private Context context;
+    private static HashMap<String, bleDevice> mBleDevicesHashMap;
+    private static ArrayList<bleDevice> mBleDevicesArrayList;
+    private final Context context;
     private LayoutInflater mInflator;
 
 
     //constructor
     @SuppressLint("NewApi")
-    public listAdapterBleDevices(Context context, ArrayList<bleDevice> mLeDevices) {
+    public listAdapterBleDevices(Context context, ArrayList<bleDevice> mBleDevicesArrayList) {
         super();
        this.context = context;
-        this.mLeDevices = mLeDevices;
+        listAdapterBleDevices.mBleDevicesArrayList = mBleDevicesArrayList;
 
 
     }
 
     @Override
     public int getCount() {
-        return mLeDevices.size();
+        return mBleDevicesArrayList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mLeDevices.get(position);
+        return mBleDevicesArrayList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
         return position;
     }
-    private static HashMap<String, bleDevice> mBleDevicesHashMap;
-    private static ArrayList<bleDevice> mBleDevicesArrayList;
+
 
 
     public static void addDevice(BluetoothDevice device, int rssi) {
         //Log.i("in the adapter class","getting results to the add method" +device);//ok
         String address = device.getAddress();
+
         //create new objects
         mBleDevicesHashMap = new HashMap<>();
         mBleDevicesArrayList = new ArrayList<>();
@@ -97,7 +98,7 @@ public class listAdapterBleDevices extends BaseAdapter {
 
 
 
-        bleDevice device = mLeDevices.get(i);
+        bleDevice device = mBleDevicesArrayList.get(i);
         String name = device.getName();
         String address = device.getAddress();
         int rssi = device.getRssi();

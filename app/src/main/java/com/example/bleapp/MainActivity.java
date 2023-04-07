@@ -97,15 +97,11 @@ public class MainActivity extends AppCompatActivity{
         offBtn = findViewById(R.id.offBtn);
         scannerBtn = findViewById(R.id.scannerBtn);
 
-        mScanLeDevice = new scanLeDevice(this, 7500, -75);
-
-
-
         //create new objects
         mBleDevicesHashMap = new HashMap<>();
         mBleDevicesArrayList = new ArrayList<>();
 
-
+        mScanLeDevice = new scanLeDevice(this, 7500, -75);
 
         //checking the bluetooth availability
         if (bluetoothAdapter == null) {
