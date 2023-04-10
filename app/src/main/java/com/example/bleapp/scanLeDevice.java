@@ -22,6 +22,7 @@ public class scanLeDevice extends ListActivity {
 
     private BluetoothAdapter mbluetoothAdapter;
     private MainActivity ma;
+    private listAdapterBleDevices lab;
     private boolean mScanning;
     private Handler mHandler;
     private long SCAN_PERIOD = 10000;
@@ -63,6 +64,8 @@ public class scanLeDevice extends ListActivity {
         scannerDevice(false);
     }
 
+
+    //scanning method
     private void scannerDevice(final boolean enable) {
         if (enable && !mScanning) {
             // Stops scanning after a predefined scan period.
@@ -97,21 +100,19 @@ public class scanLeDevice extends ListActivity {
         }
     }
     // Device scan callback.
-    //
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
-
                 @Override
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
                     final int new_rssi = rssi;
                     if (rssi > signalStrength) {
-                       // Log.i("scanLeDevice.java","rssi checking"+rssi); //working
+                       // Log.i("scanLeDevice.java","rssi checking"+rssi); //working*/
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
                                 //ma.addDevice(device, new_rssi);
-                                listAdapterBleDevices.addDevice(device, new_rssi);//adding to the list adapter
+                                ma.addDevice(device, new_rssi);//adding to the list adapter
                                 //Log.i("shakaboom","devices that are aired :"+device+" "+"RSSI:"+new_rssi);//showing MAC Addresses
                                 //Log.i("scanLeDevice.java","adding found devices....");//working
 
