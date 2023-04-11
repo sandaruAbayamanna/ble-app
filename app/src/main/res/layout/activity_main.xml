@@ -38,25 +38,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Turn on" />
+        android:text="@string/on" />
 
     <Button
         android:id="@+id/offBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Turn Off" />
+        android:text="@string/off" />
 
     <Button
-        android:id="@+id/discoverableBtn"
+        android:id="@+id/scannerBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Scan" />
+        android:text="@string/sc" />
 
-    <TextView
-        android:id="@+id/listDv"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="112dp"
-        android:layout_weight="1" />
+        android:layout_height="253dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
 </LinearLayout>

@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BLE App</string>
+    <string name="no_name">No Name</string>
+    <string name="no_address">No Address</string>
+    <string name="bl_unavailable">Bluetooth is not available</string>
+    <string name="bl_available">Bluetooth is available</string>
+    <string name="unkDev">unknown devices</string>
+    <string name="sc">Scan</string>
+    <string name="on">Turn on</string>
+    <string name="off">Turn Off</string>
 </resources>
