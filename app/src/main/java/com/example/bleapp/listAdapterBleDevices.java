@@ -52,7 +52,7 @@ public class listAdapterBleDevices extends BaseAdapter {
     //getting ble device attribute
     @Override
     public View getView(int i, View view,ViewGroup viewGroup) {
-        Log.i("view","view called");//not logging
+        Log.i("view","view called");//ok
         ViewHolder viewHolder;
         if (view == null) {
             Log.i("view holder","view holder is null");
@@ -60,7 +60,7 @@ public class listAdapterBleDevices extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.btle_device_list_item, viewGroup,false);
             //set up the viewHolder
             viewHolder = new ViewHolder();
-            Log.i("listAdapterbleDevices","creating viewHolder");//not logging
+            Log.i("listAdapterbleDevices","creating viewHolder");//ok
             viewHolder.deviceAddress= (TextView) view.findViewById(R.id.tv_macaddr);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.tv_name);
             viewHolder.rssi=(TextView)view.findViewById(R.id.tv_rssi);
@@ -71,7 +71,7 @@ public class listAdapterBleDevices extends BaseAdapter {
         }
 
         bleDevice device = mBleDevicesArrayList.get(i);
-        @SuppressLint("MissingPermission") String name = device.getName();
+        String name = device.getName();
         String address = device.getAddress();
         //int rssi = device.getRssi();
 

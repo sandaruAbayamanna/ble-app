@@ -250,7 +250,8 @@ public class MainActivity extends AppCompatActivity{
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         bleDevice item = (bleDevice) parent.getItemAtPosition(position);
-                        Toast.makeText(MainActivity.this, item.getName(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, item.getAddress(), Toast.LENGTH_SHORT).show();
+                        //Intent intent = new Intent(this,authActivity.class);
                     }
                 });
             }
