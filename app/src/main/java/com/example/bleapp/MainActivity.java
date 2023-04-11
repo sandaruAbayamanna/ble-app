@@ -43,12 +43,11 @@ public class MainActivity extends AppCompatActivity{
     private HashMap<String, bleDevice> mBleDevicesHashMap;
     private ArrayList<bleDevice> mBleDevicesArrayList;
     private listAdapterBleDevices adapter;
-
     private ListView listView;
-
-    //private final int REQUEST_LOCATION_PERMISSION = 1;
     private static final int PERMISSION_REQUEST_CODE = 2;
     private final static String TAG = MainActivity.class.getSimpleName();
+
+    ///Requesting location permission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -75,10 +74,10 @@ public class MainActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("activity","OnCreate");
+
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.list_view);
 
-        Log.d(TAG, "Request Location Permissions:");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
@@ -144,65 +143,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-
-
-       /* //bluetooth scanning button
-        scannerBtn.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("MissingPermission")
-            @Override
-            public void onClick(View view) {
-
-                Utils.toast(getApplicationContext(), "Scan Button Pressed");
-
-                if (!mScanLeDevice.isScanning()) {
-                    startScan();
-                    Log.i("MainActivity.java","scan method start through btn pressed!!!!!!!");
-                }
-                else {
-                    stopScan();
-                }
-
-
-
-            }
-
-        });*/
-
-
     }
-
-   /* @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-        bleDevice device = (bleDevice) adapter.getDevice(position);
-
-    }*/
-
-    /*public void addDevice(BluetoothDevice device, int rssi) {
-        String address = device.getAddress();
-        *//*if (adapter.contains(device)){
-            adapter.add(device);
-        }*//*
-        if (!mBleDevicesHashMap.containsKey(address)) {
-            Log.i("Hash map","hashhhhhhhh");
-            device.setRssi(rssi);
-
-            mBleDevicesHashMap.put(address, device);
-            mBleDevicesArrayList.add(device);
-            Log.i("bla bla","bleeeeee...."+device);
-        }
-        else {
-            Objects.requireNonNull(mBleDevicesHashMap.get(address)).setRssi(rssi);
-        }
-
-        adapter.notifyDataSetChanged();
-    }*/
-
-    public void stopScan() {
-
-    }
-
-
 
     @Override
     protected void onStart() {
@@ -249,9 +190,18 @@ public class MainActivity extends AppCompatActivity{
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //get position of the item from the list
                         bleDevice item = (bleDevice) parent.getItemAtPosition(position);
                         //Toast.makeText(MainActivity.this, item.getAddress(), Toast.LENGTH_SHORT).show();
-                        //Intent intent = new Intent(this,authActivity.class);
+
+                        // Create an Intent to start the authentication activity
+                        Intent intent = new Intent(MainActivity.this,AuthActivity.class);
+                        //pass the device name & Address to the AuthActivity
+                        intent.putExtra(AuthActivity.DEVICE_NAME,item.getName());
+                        intent.putExtra(AuthActivity.DEVICE_ADDRESS,item.getAddress());
+
+                        // Start the authentication activity
+                        startActivity(intent);
                     }
                 });
             }
@@ -301,5 +251,18 @@ public class MainActivity extends AppCompatActivity{
 
 
     }
+    public void stopScan() {
 
-   }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopScan();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+}

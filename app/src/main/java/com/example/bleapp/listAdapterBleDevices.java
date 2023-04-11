@@ -60,7 +60,6 @@ public class listAdapterBleDevices extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.btle_device_list_item, viewGroup,false);
             //set up the viewHolder
             viewHolder = new ViewHolder();
-            Log.i("listAdapterbleDevices","creating viewHolder");//ok
             viewHolder.deviceAddress= (TextView) view.findViewById(R.id.tv_macaddr);
             viewHolder.deviceName = (TextView) view.findViewById(R.id.tv_name);
             viewHolder.rssi=(TextView)view.findViewById(R.id.tv_rssi);
@@ -75,8 +74,8 @@ public class listAdapterBleDevices extends BaseAdapter {
         String address = device.getAddress();
         //int rssi = device.getRssi();
 
-        if (name != null && name.length() > 0) {
-            viewHolder.deviceName.setText(name);
+        if (name != null) {
+            viewHolder.deviceName.setText(device.getName());
         }
         else {
             viewHolder.deviceName.setText(R.string.unkDev);
