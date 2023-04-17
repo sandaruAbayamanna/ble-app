@@ -13,6 +13,7 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -87,7 +88,17 @@ public class AuthActivity extends AppCompatActivity {
         Log.i("auth", "authentication started");
 
         // Connect to the device
-        mGatt = mDevice.connectGatt(this, false, new BluetoothGattCallback() {
+        //=>  This connects to the GATT server hosted by the BLE device
+        //=> and returns a BluetoothGatt instance, which you can then use to conduct GATT client operations
+        // This method takes three parameters: a Context object, autoConnect and a reference to a BluetoothGattCallback:
+
+        if (password.equals("admin")){
+            startActivity(new Intent(AuthActivity.this,DevHomeActivity.class));
+        }else{
+            Toast.makeText(this, "Password is invalid please try again !!!!!", Toast.LENGTH_SHORT).show();
+        }
+
+        /*mGatt = mDevice.connectGatt(this, false, new BluetoothGattCallback() {
             @SuppressLint("MissingPermission")
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -142,7 +153,7 @@ public class AuthActivity extends AppCompatActivity {
 
                 }
             }
-        });
+        });*/
 
     }
 

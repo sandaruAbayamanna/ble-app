@@ -21,9 +21,13 @@
         android:theme="@style/Theme.BLEApp"
         tools:targetApi="31">
         <activity
+            android:name=".DevHomeActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:exported="false" />
+        <activity
             android:name=".AuthActivity"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"/>
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".splashActivity"
             android:exported="true">
@@ -35,8 +39,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -15,4 +15,9 @@
     <string name="title">Login to your Device</string>
     <string name="lg">Login</string>
     <string name="authImg">auth_image</string>
+    <string name="dev_welcome">Welcome</string>
+    <string name="dev_name">Device Name</string>
+    <string name="addr">Address</string>
+    <string name="add_notes">Add Notes</string>
+    <string name="view_notes">View Notes</string>
 </resources>

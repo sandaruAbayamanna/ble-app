@@ -200,6 +200,10 @@ public class MainActivity extends AppCompatActivity{
                         intent.putExtra(AuthActivity.DEVICE_NAME,item.getName());
                         intent.putExtra(AuthActivity.DEVICE_ADDRESS,item.getAddress());
 
+                        //pass the device name & Address to the DevHomeActivity
+                        intent.putExtra(DevHomeActivity.DEVICE_NAME,item.getName());
+                        intent.putExtra(DevHomeActivity.DEVICE_ADDRESS,item.getAddress());
+
                         // Start the authentication activity
                         startActivity(intent);
                     }
