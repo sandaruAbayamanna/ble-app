@@ -8,4 +8,16 @@
     <string name="sc">Scan</string>
     <string name="on">Turn on</string>
     <string name="off">Turn Off</string>
+    <string name="un">UserName</string>
+    <string name="psw">Password</string>
+    <string name="passHint">Enter Your Password</string>
+    <string name="unHint">Enter Your User Name</string>
+    <string name="title">Login to your Device</string>
+    <string name="lg">Login</string>
+    <string name="authImg">auth_image</string>
+    <string name="dev_welcome">Welcome</string>
+    <string name="dev_name">Device Name</string>
+    <string name="addr">Address</string>
+    <string name="add_notes">Add Notes</string>
+    <string name="view_notes">View Notes</string>
 </resources>
