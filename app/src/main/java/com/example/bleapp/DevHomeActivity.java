@@ -6,7 +6,9 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -38,6 +40,14 @@ public class DevHomeActivity extends AppCompatActivity {
 
         devName.setText(dev_name);
         editAddr.setText(deviceAddress);
+
+        viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DevHomeActivity.this,ListNotesActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }
