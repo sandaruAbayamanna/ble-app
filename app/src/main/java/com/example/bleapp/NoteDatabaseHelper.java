@@ -12,7 +12,7 @@ import java.util.List;
 public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "NotesDB.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public static final String TABLE_NAME = "NotesTable";
     public static final String COLUMN_ID = "NotesId";
@@ -55,7 +55,9 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COLUMN_DATE, noteModel. getNoteDate());
         contentValues.put(COLUMN_TIME, noteModel.getNoteTime());
 
-        return db.insert(TABLE_NAME, null,contentValues);
+        long ID= db.insert(TABLE_NAME, null,contentValues);
+        return ID;
+
 
     }
 
@@ -80,6 +82,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
             }while (cursor.moveToNext());
         }
 
+        cursor.close();
         return allNote;
     }
 

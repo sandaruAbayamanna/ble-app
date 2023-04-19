@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -43,8 +44,9 @@ public class AddNoteActivity extends AppCompatActivity {
                 NoteModel noteModel = new NoteModel(title.getText().toString(),details.getText().toString(),todayDate,currentTime);
                 NoteDatabaseHelper db = new NoteDatabaseHelper(AddNoteActivity.this);
                 db.AddNote(noteModel);
+                Log.i("note Model","added note is:"+noteModel.getNoteTitle());
 
-                Intent intent = new Intent(AddNoteActivity.this,MainActivity.class);
+                Intent intent = new Intent(AddNoteActivity.this,ListNotesActivity.class);
                 startActivity(intent);
 
                 Toast.makeText(getApplicationContext(),"Note Saved",Toast.LENGTH_SHORT).show();
