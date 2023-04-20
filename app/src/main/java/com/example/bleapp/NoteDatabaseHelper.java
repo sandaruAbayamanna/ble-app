@@ -5,31 +5,35 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "NotesDB.db";
-    private static final int DATABASE_VERSION = 2;
+    public static String DATABASE_NAME = "NotesDB.db";
+    public static final int DATABASE_VERSION = 1;
 
-    public static final String TABLE_NAME = "NotesTable";
-    public static final String COLUMN_ID = "NotesId";
-    public static final String COLUMN_TITLE= "NotesTitle";
-    public static final String COLUMN_DETAILS= "NotesDetails";
-    public static final String COLUMN_DATE= "NotesDate";
-    public static final String COLUMN_TIME= "NotesTime";
+    public static String TABLE_NAME = "NotesTable";
+    public static String COLUMN_ID = "NotesId";
+    public static String COLUMN_TITLE= "NotesTitle";
+    public static String COLUMN_DETAILS= "NotesDetails";
+    public static String COLUMN_DATE= "NotesDate";
+    public static String COLUMN_TIME= "NotesTime";
 
-    public NoteDatabaseHelper( Context context) {
+    public NoteDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+
+    //create table schema
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME +
-                " (" +
-                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_TITLE + " TEXT," +
                         COLUMN_DETAILS + "TEXT," +
                         COLUMN_DATE +"TEXT," +
@@ -47,17 +51,27 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //inserting values to the table
     public long AddNote(NoteModel noteModel){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_TITLE, noteModel.getNoteTitle());
-        contentValues.put(COLUMN_DETAILS, noteModel.getNoteDetails());
-        contentValues.put(COLUMN_DATE, noteModel. getNoteDate());
-        contentValues.put(COLUMN_TIME, noteModel.getNoteTime());
+        contentValues.put(NoteDatabaseHelper.COLUMN_TITLE, noteModel.getNoteTitle());
+        contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, noteModel.getNoteDetails());
+        contentValues.put(NoteDatabaseHelper.COLUMN_DATE, noteModel. getNoteDate());
+        contentValues.put(NoteDatabaseHelper.COLUMN_TIME, noteModel.getNoteTime());
 
-        long ID= db.insert(TABLE_NAME, null,contentValues);
+        long ID= db.insert(TABLE_NAME,null,contentValues);
+        Log.i("Add note","sql data inserted ID Is: "+ID);
+
+        if (ID > 0) {
+            // Insert was successful
+            Log.i("sql insert","Note saved successfully");
+        } else {
+            // Insert failed
+            Log.i("sql insert","Error: Failed to save note");
+
+        }
         return ID;
-
 
     }
 
@@ -84,6 +98,32 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return allNote;
+    }
+
+    //display the note title with details
+    public NoteModel getNotes(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] query = new String[]{COLUMN_ID,COLUMN_TITLE,COLUMN_DETAILS,COLUMN_DATE,COLUMN_DATE,COLUMN_TIME};
+        Cursor cursor = db.query(TABLE_NAME, query,COLUMN_ID+"=?", new String[]{String.valueOf(id)},null,null,null,null);
+        if (cursor != null){
+            cursor.moveToFirst();
+
+        }
+
+        assert cursor != null;
+        return new NoteModel(
+                Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4));
+    }
+
+    void deleteNote(int id){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(TABLE_NAME,COLUMN_ID+"=?", new String[]{String.valueOf(id)});
+        db.close();
+
     }
 
 }

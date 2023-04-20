@@ -1,6 +1,7 @@
 package com.example.bleapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         return noteModels.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nTitle,nDate, nTime;
 
@@ -61,7 +62,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), "item clicked", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(itemView.getContext(), "item clicked", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(v.getContext(),DetailActivity.class);
+                    intent.putExtra("ID",noteModels.get(getAdapterPosition()).getId());
+                    v.getContext().startActivity(intent);
                 }
             });
         }

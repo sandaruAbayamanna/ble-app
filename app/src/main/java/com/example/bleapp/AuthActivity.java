@@ -64,6 +64,7 @@ public class AuthActivity extends AppCompatActivity {
             deviceNameText.setText(R.string.unkDev);}*/
 
         deviceNameText.setText(deviceAddress);
+        Log.i("device address","address is :"+deviceAddress+" "+deviceName);
 
         // Set a click listener on the Button
         mAuthButton.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +77,7 @@ public class AuthActivity extends AppCompatActivity {
 
                 Utils.toast(getApplicationContext(), "Login Button Pressed");
                 Log.i("authButton", "login btn clicked");
+
 
                 // Start the authentication process
                 authenticate(password);
@@ -93,7 +95,17 @@ public class AuthActivity extends AppCompatActivity {
         // This method takes three parameters: a Context object, autoConnect and a reference to a BluetoothGattCallback:
 
         if (password.equals("admin")){
-            startActivity(new Intent(AuthActivity.this,DevHomeActivity.class));
+           /* startActivity(new Intent(AuthActivity.this,DevHomeActivity.class));*/
+
+            // Get the device address & Name from the Intent
+            String deviceAddress = getIntent().getStringExtra(DEVICE_ADDRESS);
+            String deviceName = getIntent().getStringExtra(DEVICE_NAME);
+            // Create an Intent to start the authentication activity
+            Intent intent = new Intent(AuthActivity.this,DevHomeActivity.class);
+            //pass the device name & Address to the DevHomeActivity
+            intent.putExtra("dev_name",deviceName);
+            intent.putExtra("deviceAddress",deviceAddress);
+            startActivity(intent);
         }else{
             Toast.makeText(this, "Password is invalid please try again !!!!!", Toast.LENGTH_SHORT).show();
         }

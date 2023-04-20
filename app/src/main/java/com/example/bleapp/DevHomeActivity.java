@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +17,6 @@ public class DevHomeActivity extends AppCompatActivity {
 
     static String DEVICE_NAME = "DEVICE_NAME";
     static String DEVICE_ADDRESS = "DEVICE_ADDRESS";
-    private BluetoothDevice mDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class DevHomeActivity extends AppCompatActivity {
         TextView editAddr= findViewById(R.id.addr_edit);
 
         // Get the device address & Name from the Intent
-        String deviceAddress = getIntent().getStringExtra(DEVICE_ADDRESS);
-        String dev_name = getIntent().getStringExtra(DEVICE_NAME);
+        String deviceAddress = getIntent().getStringExtra("deviceAddress");
+        String dev_name = getIntent().getStringExtra("dev_name");
 
         /*// Get the BluetoothDevice for the selected address
         BluetoothManager bluetoothManager =
@@ -40,11 +40,22 @@ public class DevHomeActivity extends AppCompatActivity {
 
         devName.setText(dev_name);
         editAddr.setText(deviceAddress);
+        Log.i("DevHomeActivity","address is :"+deviceAddress+" "+dev_name);
 
+
+        //can add notes directly
         viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(DevHomeActivity.this,ListNotesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DevHomeActivity.this,AddNoteActivity.class);
                 startActivity(i);
             }
         });
