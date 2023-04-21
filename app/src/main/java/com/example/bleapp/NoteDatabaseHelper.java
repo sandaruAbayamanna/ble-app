@@ -14,10 +14,10 @@ import java.util.List;
 
 public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
-    public static String DATABASE_NAME = "NotesDB.db";
-    public static final int DATABASE_VERSION = 1;
+    public static String DATABASE_NAME = "MineNotesDB.db";
+    public static final int DATABASE_VERSION = 4;
 
-    public static String TABLE_NAME = "NotesTable";
+    public static String TABLE_NAME = "MineNotesTable";
     public static String COLUMN_ID = "NotesId";
     public static String COLUMN_TITLE= "NotesTitle";
     public static String COLUMN_DETAILS= "NotesDetails";
@@ -40,6 +40,8 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_TIME + "TEXT" +")";
 
         db.execSQL(query);
+
+
     }
 
     @Override
@@ -56,9 +58,16 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteDatabaseHelper.COLUMN_TITLE, noteModel.getNoteTitle());
-        contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, noteModel.getNoteDetails());
-        contentValues.put(NoteDatabaseHelper.COLUMN_DATE, noteModel. getNoteDate());
-        contentValues.put(NoteDatabaseHelper.COLUMN_TIME, noteModel.getNoteTime());
+        //No column error
+        //contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, noteModel.getNoteDetails());
+       // contentValues.put(NoteDatabaseHelper.COLUMN_DATE, noteModel. getNoteDate());
+       // contentValues.put(NoteDatabaseHelper.COLUMN_TIME, noteModel.getNoteTime());
+
+        //Hardcoded values
+/*
+        contentValues.put(NoteDatabaseHelper.COLUMN_TITLE, "My Title");
+        contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, "My Description");*/
+
 
         long ID= db.insert(TABLE_NAME,null,contentValues);
         Log.i("Add note","sql data inserted ID Is: "+ID);
@@ -103,7 +112,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     //display the note title with details
     public NoteModel getNotes(int id){
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] query = new String[]{COLUMN_ID,COLUMN_TITLE,COLUMN_DETAILS,COLUMN_DATE,COLUMN_DATE,COLUMN_TIME};
+        String[] query = new String[]{COLUMN_ID,COLUMN_TITLE,COLUMN_DETAILS,COLUMN_DATE,COLUMN_TIME};
         Cursor cursor = db.query(TABLE_NAME, query,COLUMN_ID+"=?", new String[]{String.valueOf(id)},null,null,null,null);
         if (cursor != null){
             cursor.moveToFirst();
