@@ -21,9 +21,18 @@
         android:theme="@style/Theme.BLEApp"
         tools:targetApi="31">
         <activity
-            android:name=".DevHomeActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+            android:name=".DetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".ListNotesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddNoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DevHomeActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".AuthActivity"
             android:exported="false"

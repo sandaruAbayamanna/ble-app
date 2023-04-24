@@ -4,7 +4,7 @@
     <string name="no_address">No Address</string>
     <string name="bl_unavailable">Bluetooth is not available</string>
     <string name="bl_available">Bluetooth is available</string>
-    <string name="unkDev">unknown devices</string>
+    <string name="unkDev">unknown device</string>
     <string name="sc">Scan</string>
     <string name="on">Turn on</string>
     <string name="off">Turn Off</string>
@@ -20,4 +20,12 @@
     <string name="addr">Address</string>
     <string name="add_notes">Add Notes</string>
     <string name="view_notes">View Notes</string>
+    <string name="addNoteBtn">Add Note</string>
+    <string name="note_details">Note Details</string>
+    <string name="add_note">Add Note</string>
+    <string name="title_demo">Title Demo</string>
+    <string name="details_demo">Details Demo</string>
+    <string name="sample_note_title">sample note title</string>
+    <string name="_22_1_2022">22/1/2022</string>
+    <string name="_12_25">12:25</string>
 </resources>
