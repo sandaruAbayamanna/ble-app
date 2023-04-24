@@ -32,13 +32,17 @@ public class DevHomeActivity extends AppCompatActivity {
         String deviceAddress = getIntent().getStringExtra("deviceAddress");
         String dev_name = getIntent().getStringExtra("dev_name");
 
-        /*// Get the BluetoothDevice for the selected address
-        BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-        mDevice = bluetoothAdapter.getRemoteDevice(deviceAddress);*/
+        //devName.setText(dev_name);
 
-        devName.setText(dev_name);
+        if (devName != null) {
+
+            devName.setText(dev_name);
+
+        }
+        else {
+            devName.setText(R.string.unkDev);
+        }
+
         editAddr.setText(deviceAddress);
         Log.i("DevHomeActivity","address is :"+deviceAddress+" "+dev_name);
 

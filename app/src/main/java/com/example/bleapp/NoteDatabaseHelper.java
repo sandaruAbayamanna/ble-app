@@ -35,9 +35,9 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         String query = "CREATE TABLE " + TABLE_NAME +
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_TITLE + " TEXT," +
-                        COLUMN_DETAILS + "TEXT," +
-                        COLUMN_DATE +"TEXT," +
-                        COLUMN_TIME + "TEXT" +")";
+                        COLUMN_DETAILS + " TEXT," +
+                        COLUMN_DATE +" TEXT," +
+                        COLUMN_TIME + " TEXT" +")";
 
         db.execSQL(query);
 
@@ -51,6 +51,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
             return;
         db.execSQL("DROP TABLE IF EXISTS " + DATABASE_NAME);
         onCreate(db);
+        db.close();
     }
 
     //inserting values to the table
@@ -58,10 +59,10 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(NoteDatabaseHelper.COLUMN_TITLE, noteModel.getNoteTitle());
-        //No column error
-        //contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, noteModel.getNoteDetails());
-       // contentValues.put(NoteDatabaseHelper.COLUMN_DATE, noteModel. getNoteDate());
-       // contentValues.put(NoteDatabaseHelper.COLUMN_TIME, noteModel.getNoteTime());
+
+        contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, noteModel.getNoteDetails());
+        contentValues.put(NoteDatabaseHelper.COLUMN_DATE, noteModel. getNoteDate());
+        contentValues.put(NoteDatabaseHelper.COLUMN_TIME, noteModel.getNoteTime());
 
         //Hardcoded values
 /*
@@ -70,6 +71,9 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
 
         long ID= db.insert(TABLE_NAME,null,contentValues);
+
+        //close the database connection
+        db.close();
         Log.i("Add note","sql data inserted ID Is: "+ID);
 
         if (ID > 0) {
@@ -82,6 +86,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         }
         return ID;
 
+
     }
 
     public List<NoteModel> getNote(){
@@ -90,6 +95,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
         String queryStatement = "SELECT * FROM "+TABLE_NAME;
         Cursor cursor = db.rawQuery(queryStatement,null);
+
 
         if (cursor.moveToFirst()){
             do {
@@ -106,11 +112,13 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
         return allNote;
     }
 
     //display the note title with details
     public NoteModel getNotes(int id){
+
         SQLiteDatabase db = this.getReadableDatabase();
         String[] query = new String[]{COLUMN_ID,COLUMN_TITLE,COLUMN_DETAILS,COLUMN_DATE,COLUMN_TIME};
         Cursor cursor = db.query(TABLE_NAME, query,COLUMN_ID+"=?", new String[]{String.valueOf(id)},null,null,null,null);
@@ -127,6 +135,8 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                 cursor.getString(3),
                 cursor.getString(4));
     }
+
+
 
     void deleteNote(int id){
         SQLiteDatabase db = this.getReadableDatabase();

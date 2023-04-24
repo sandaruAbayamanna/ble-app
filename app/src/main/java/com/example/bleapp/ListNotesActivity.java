@@ -34,12 +34,6 @@ public class ListNotesActivity extends AppCompatActivity {
         layoutManager.setStackFromEnd(true);
 
         recyclerView.setLayoutManager(layoutManager);
-
-       /* List<NoteModel> noteModelList = new ArrayList<>();
-        noteModelList.add(new NoteModel("test","test","test","test"));
-        noteModelList.add(new NoteModel("Synergen","dailyProgress","2023/04/19","2.53 P.M"));
-        noteModelList.add(new NoteModel("test123....","test..","test","test"));
-        noteModelList.add(new NoteModel("Synergen","dailyProgress","2023/04/19","2.53 P.M"));*/
         adapter = new Adapter(this,noteModelList);
         recyclerView.setAdapter(adapter);
     }

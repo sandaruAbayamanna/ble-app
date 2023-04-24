@@ -12,14 +12,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:hint="Add Note"
+        android:hint="@string/add_note"
         android:textSize="20sp"
         />
     <EditText
         android:id="@+id/noteDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Note Details"
+        android:hint="@string/note_details"
         android:inputType="textMultiLine"
         android:lineSpacingExtra="10dp"
         android:lines="8"
@@ -40,8 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="24dp"
-        android:text="Add Note"
+        android:text="@string/addNoteBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteDetails"/>
+        app:layout_constraintTop_toBottomOf="@+id/noteDetails" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
