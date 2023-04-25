@@ -1,7 +1,10 @@
 package com.example.bleapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
@@ -24,6 +28,16 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     public static String COLUMN_DATE= "NotesDate";
     public static String COLUMN_TIME= "NotesTime";
 
+    private static final String USER_TABLE_NAME = "users";
+    private static final String COLUMN_USERNAME = "username";
+    private static final String COLUMN_PASSWORD_HASH = "password_hash";
+
+    private static final String query_user =
+            "CREATE TABLE " + TABLE_NAME + " (" +
+                    COLUMN_USERNAME + " TEXT PRIMARY KEY, " +
+                    COLUMN_PASSWORD_HASH + " TEXT NOT NULL)";
+
+
     public NoteDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -32,6 +46,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     //create table schema
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //create note table
         String query = "CREATE TABLE " + TABLE_NAME +
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                         COLUMN_TITLE + " TEXT," +
@@ -40,6 +55,9 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_TIME + " TEXT" +")";
 
         db.execSQL(query);
+
+        //create user table
+        db.execSQL(query_user);
 
 
     }
@@ -143,6 +161,38 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME,COLUMN_ID+"=?", new String[]{String.valueOf(id)});
         db.close();
 
+    }
+
+    public void addUser(String password){
+
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        //values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_PASSWORD_HASH, hashPassword(password));
+        db.insert(TABLE_NAME, null, values);
+    }
+
+    private String hashPassword(String password) {
+        // Use a secure hashing algorithm such as bcrypt to hash the password
+        // For example:
+        String salt = BCrypt.gensalt();
+        return BCrypt.hashpw(password, salt);
+
+    }
+
+    public boolean authenticateUser(String username, String password) {
+         SQLiteDatabase db = this.getReadableDatabase();
+            String[] projection = { COLUMN_PASSWORD_HASH };
+            String selection = COLUMN_USERNAME + " = ?";
+            String[] selectionArgs = { username };
+            Cursor cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+            if (cursor.moveToFirst()) {
+                String passwordHash = cursor.getString(0);
+                return BCrypt.checkpw(password, passwordHash);
+            }
+
+        return false;
     }
 
 }
