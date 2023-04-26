@@ -6,15 +6,18 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class DevHomeActivity extends AppCompatActivity {
 
-    static String DEVICE_NAME = "DEVICE_NAME";
-    static String DEVICE_ADDRESS = "DEVICE_ADDRESS";
-    private BluetoothDevice mDevice;
+    /*static String DEVICE_NAME = "DEVICE_NAME";
+    static String DEVICE_ADDRESS = "DEVICE_ADDRESS";*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,18 +29,37 @@ public class DevHomeActivity extends AppCompatActivity {
         TextView devName = findViewById(R.id.dev_name_text);
         TextView editAddr= findViewById(R.id.addr_edit);
 
-        // Get the device address & Name from the Intent
-        String deviceAddress = getIntent().getStringExtra(DEVICE_ADDRESS);
-        String dev_name = getIntent().getStringExtra(DEVICE_NAME);
+       /* // Get the device address & Name from the Intent
+        String deviceAddress = getIntent().getStringExtra("deviceAddress");
+        String dev_name = getIntent().getStringExtra("dev_name");*/
 
-        /*// Get the BluetoothDevice for the selected address
-        BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-        mDevice = bluetoothAdapter.getRemoteDevice(deviceAddress);*/
+        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        String deviceName = sharedPreferences.getString("device_name", "unknown Device");
+        String deviceAddress = sharedPreferences.getString("device_address", "Address Not found!!");
 
-        devName.setText(dev_name);
+        //devName.setText(dev_name);
+
+        devName.setText(deviceName);
         editAddr.setText(deviceAddress);
+        Log.i("DevHomeActivity","address is :"+deviceAddress+" "+deviceName);
+
+
+        //can add notes directly
+        viewBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DevHomeActivity.this,ListNotesActivity.class);
+                startActivity(i);
+            }
+        });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DevHomeActivity.this,AddNoteActivity.class);
+                startActivity(i);
+            }
+        });
 
     }
 }
