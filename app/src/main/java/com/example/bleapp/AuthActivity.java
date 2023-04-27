@@ -1,8 +1,5 @@
 package com.example.bleapp;
 
-import static com.example.bleapp.NoteDatabaseHelper.COLUMN_DEVICENAME;
-import static com.example.bleapp.NoteDatabaseHelper.COLUMN_PASSWORD_HASH;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -75,12 +72,25 @@ public class AuthActivity extends AppCompatActivity {
 
 
                 // Start the authentication process
-                authenticate(password);
 
-                SharedPreferences sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE);
+                String salt = BCrypt.gensalt();
+                String hashedPassword = BCrypt.hashpw(password, salt);
+
+                if (salt != null && hashedPassword != null && BCrypt.checkpw(password, hashedPassword)) {
+                    // Password is correct
+                    Intent intent = new Intent(AuthActivity.this,DevHomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Password is incorrect
+                    Toast.makeText(AuthActivity.this, "Password is invalid please try again !!!!!", Toast.LENGTH_SHORT).show();
+                }
+
+                //authenticate(password);
+
+               /* SharedPreferences sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("password", password);
-                editor.apply();
+                editor.apply();*/
 
             }
         });
@@ -90,16 +100,17 @@ public class AuthActivity extends AppCompatActivity {
     private void authenticate(String password) {
         Log.i("auth", "authentication started");
 
-        NoteDatabaseHelper db = new NoteDatabaseHelper(this);
+        /*User user = new User();
+        NoteDatabaseHelper db = new NoteDatabaseHelper(this);*/
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
         String deviceName = sharedPreferences.getString("device_name", "unknown Device");
         String pass = sharedPreferences.getString("password",null);
 
-        db.addUser(deviceName,password);
+        /*db.addUser(*//*deviceName,*//*password,user);
         db.authenticateUser(deviceName,password);
-        db.close();
+        db.close();*/
 
-        String storedSalt = sharedPreferences.getString("salt", null);
+        /*String storedSalt = sharedPreferences.getString("salt", null);
         String storedHashedPassword = sharedPreferences.getString("hashedPassword", null);
         //Here check whether the hash pass equals to the entered one and proceed
 
@@ -125,11 +136,11 @@ public class AuthActivity extends AppCompatActivity {
                 null
         );
 
-        /*SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        *//*SharedPreferences prefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("salt", salt);
         editor.putString("hashedPassword", hashedPassword);
-        editor.apply();*/
+        editor.apply();*//*
 
         if (cursor.moveToFirst()) {
             String storedPasswordHash = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PASSWORD_HASH));
@@ -145,7 +156,7 @@ public class AuthActivity extends AppCompatActivity {
         } else {
             // User not found, display error message
             Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     /*private Cursor query(String[] projection, String selection, String[] selectionArgs) {
@@ -153,38 +164,7 @@ public class AuthActivity extends AppCompatActivity {
         return COLUMN_DEVICENAME;
     }*/
 
-
-      /*  if (storedSalt != null && storedHashedPassword != null && BCrypt.checkpw(password, storedHashedPassword)) {
-            // Password is correct
-            Intent intent = new Intent(AuthActivity.this,DevHomeActivity.class);
-            startActivity(intent);
-        } else {
-            // Password is incorrect
-            Toast.makeText(this, "Password is invalid please try again !!!!!", Toast.LENGTH_SHORT).show();
-        }*/
-
-        /*if (password.equals("admin")){
-
-           *//* // Get the device address & Name from the Intent
-            String deviceAddress = getIntent().getStringExtra(DEVICE_ADDRESS);
-            String deviceName = getIntent().getStringExtra(DEVICE_NAME);*//*
-            // Create an Intent to start the authentication activity
-            Intent intent = new Intent(AuthActivity.this,DevHomeActivity.class);
-          *//*  //pass the device name & Address to the DevHomeActivity
-            intent.putExtra("dev_name",deviceName);
-            intent.putExtra("deviceAddress",deviceAddress);*//*
-            startActivity(intent);
-        }else{
-            Toast.makeText(this, "Password is invalid please try again !!!!!", Toast.LENGTH_SHORT).show();
-        }*/
-
     //}
-
-
-
-
-
-
     @SuppressLint("MissingPermission")
     @Override
     protected void onDestroy() {

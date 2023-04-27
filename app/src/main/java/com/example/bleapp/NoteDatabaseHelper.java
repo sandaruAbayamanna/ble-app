@@ -26,28 +26,26 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     public static String COLUMN_DATE= "NotesDate";
     public static String COLUMN_TIME= "NotesTime";
 
-    public static final String USER_TABLE_NAME = "users";
+    /*public static final String USER_TABLE_NAME = "users";
+    public static String USER_COLUMN_ID = "userId";
     public static String COLUMN_DEVICENAME = "devicename";
     public static String COLUMN_PASSWORD_HASH = "password_hash";
-    public static String COLUMN_SALT = "salt";
-    /*private final SharedPreferences sharedPreferences;
-    private Context context;*/
-    /*public static final String query_user =
-            "CREATE TABLE " + TABLE_NAME + " (" +
-                    COLUMN_DEVICENAME + " TEXT PRIMARY KEY, " +
-                    COLUMN_PASSWORD_HASH + " TEXT NOT NULL)";*/
-    String salt = BCrypt.gensalt();
+    public static String COLUMN_SALT = "salt";*/
 
-
+   /* String salt = BCrypt.gensalt();*/
     public NoteDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-       /* this.context = context;
-        assert context != null;
-        sharedPreferences = context.getSharedPreferences("MyPrefs",Context.MODE_PRIVATE);*/
     }
 
 
-    //create table schema
+    /*//create user table schema
+    public static final String query_user =
+            "CREATE TABLE " + USER_TABLE_NAME + " (" +
+                    USER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_DEVICENAME + " TEXT," +
+                    COLUMN_PASSWORD_HASH + " TEXT NOT NULL, " +
+                    COLUMN_SALT + " TEXT NOT NULL)";*/
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         //create note table
@@ -56,13 +54,11 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_TITLE + " TEXT," +
                         COLUMN_DETAILS + " TEXT," +
                         COLUMN_DATE +" TEXT," +
-                        COLUMN_DEVICENAME + " TEXT," +
-                        COLUMN_PASSWORD_HASH + " TEXT," +
                         COLUMN_TIME + " TEXT" +")";
 
         db.execSQL(query);
 
-        /*//create user table
+      /*  //create user table
         db.execSQL(query_user);*/
 
 
@@ -87,12 +83,6 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, noteModel.getNoteDetails());
         contentValues.put(NoteDatabaseHelper.COLUMN_DATE, noteModel. getNoteDate());
         contentValues.put(NoteDatabaseHelper.COLUMN_TIME, noteModel.getNoteTime());
-
-        //Hardcoded values
-/*
-        contentValues.put(NoteDatabaseHelper.COLUMN_TITLE, "My Title");
-        contentValues.put(NoteDatabaseHelper.COLUMN_DETAILS, "My Description");*/
-
 
         long ID= db.insert(TABLE_NAME,null,contentValues);
 
@@ -169,15 +159,15 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void addUser(String deviceName,String password/*,User user*/){
+   /* public void addUser(*//*String deviceName,*//*String password,User user){
 
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_DEVICENAME,deviceName);
+        values.put(COLUMN_DEVICENAME, user.getDeviceName());
         values.put(COLUMN_PASSWORD_HASH, hashPassword(password));
-        values.put(COLUMN_SALT,salt);
-        db.insert(TABLE_NAME, null, values);
+        values.put(COLUMN_SALT, salt);
+        db.insert(USER_TABLE_NAME, null, values);
     }
 
     private String hashPassword(String password) {
@@ -186,10 +176,10 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
 
         String hashedPassword = BCrypt.hashpw(password, salt);
 
-        /*SharedPreferences.Editor editor = sharedPreferences.edit();
+        *//*SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("salt", salt);
         editor.putString("hashedPassword", hashedPassword);
-        editor.apply();*/
+        editor.apply();*//*
 
         return hashedPassword;
 
@@ -203,7 +193,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
         String[] selectionArgs = {deviceName};
 
         Cursor cursor = db.query(
-                TABLE_NAME,
+                USER_TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -230,7 +220,7 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
             String[] projection = { COLUMN_PASSWORD_HASH };
             String selection = COLUMN_DEVICENAME + " = ?";
             String[] selectionArgs = { deviceName };
-            Cursor cursor = db.query(TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+            Cursor cursor = db.query(USER_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
             if (cursor.moveToFirst()) {
                 String passwordHash = cursor.getString(0);
                 cursor.close();
@@ -238,5 +228,5 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
             }
 
         return false;
-    }
+    }*/
 }

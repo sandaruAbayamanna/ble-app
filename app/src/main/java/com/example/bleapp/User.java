@@ -1,3 +1,4 @@
+/*
 package com.example.bleapp;
 
 public class User {
@@ -17,6 +18,10 @@ public class User {
         this.deviceName = deviceName;
         this.salt = storedSalt;
         this.hashPassword = storedHashedPassword;
+    }
+
+    public User() {
+
     }
 
     public int getUserId() {
@@ -59,3 +64,4 @@ public class User {
         this.hashPassword = hashPassword;
     }
 }
+*/
