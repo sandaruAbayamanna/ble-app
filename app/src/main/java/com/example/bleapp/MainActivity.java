@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
     private ListView listView;
     private static final int PERMISSION_REQUEST_CODE = 2;
     private final static String TAG = MainActivity.class.getSimpleName();
+
 
     ///Requesting location permission
     @Override
@@ -196,13 +198,20 @@ public class MainActivity extends AppCompatActivity{
 
                         // Create an Intent to start the authentication activity
                         Intent intent = new Intent(MainActivity.this,AuthActivity.class);
-                        //pass the device name & Address to the AuthActivity
+
+                        //using shared preferences to store device name& address
+                        SharedPreferences sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("device_name", item.getName());
+                        editor.putString("device_address", item.getAddress());
+                        editor.apply();
+                       /* //pass the device name & Address to the AuthActivity
                         intent.putExtra(AuthActivity.DEVICE_NAME,item.getName());
                         intent.putExtra(AuthActivity.DEVICE_ADDRESS,item.getAddress());
 
                         //pass the device name & Address to the DevHomeActivity
                         intent.putExtra(DevHomeActivity.DEVICE_NAME,item.getName());
-                        intent.putExtra(DevHomeActivity.DEVICE_ADDRESS,item.getAddress());
+                        intent.putExtra(DevHomeActivity.DEVICE_ADDRESS,item.getAddress());*/
 
                         // Start the authentication activity
                         startActivity(intent);
