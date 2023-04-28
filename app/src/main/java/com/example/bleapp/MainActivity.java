@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Log.i("activity","OnCreate");
 
+
+
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.list_view);
 
