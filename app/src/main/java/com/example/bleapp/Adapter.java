@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.nTitle.setText(title);
         holder.nDate.setText(date);
         holder.nTime.setText(time);
+        holder.img.setImageResource(R.drawable.notepad);
     }
 
     @Override
@@ -51,10 +53,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nTitle,nDate, nTime;
+        ImageView img;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            img = itemView.findViewById(R.id.imageView2);
             nTitle = itemView.findViewById(R.id.nTitle);
             nTime = itemView.findViewById(R.id.nTime);
             nDate = itemView.findViewById(R.id.nDate);

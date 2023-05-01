@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BLE App</string>
+    <string name="app_name">ROOKIE</string>
     <string name="no_name">No Name</string>
     <string name="no_address">No Address</string>
     <string name="bl_unavailable">Bluetooth is not available</string>
