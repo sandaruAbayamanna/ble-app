@@ -8,6 +8,8 @@ import android.bluetooth.BluetoothManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +36,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_ENABLE_BT = 1;
     //init scanLeDevice class
@@ -54,16 +59,12 @@ public class MainActivity extends AppCompatActivity{
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode == PERMISSION_REQUEST_CODE)
-        {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
             //Do something based on grantResults
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Location Permission granted...", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "coarse location permission granted");
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, "Location Permission denied...", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "coarse location permission denied");
             }
@@ -75,15 +76,13 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("activity","OnCreate");
-
+        Log.i("activity", "OnCreate");
 
 
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.list_view);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
         }
 
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onStart() {
         super.onStart();
 
-        Log.i("activity","OnStart");
+        Log.i("activity", "OnStart");
 
     }
 
@@ -161,10 +160,32 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-        Log.i("activity","OnResume");
+        Log.i("activity", "OnResume");
         scannerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "MyNotification");
+                builder.setContentTitle("Scanning");
+                builder.setContentText("ROOKIE Scanning The BLE Devices ");
+                builder.setSmallIcon(R.drawable.icon_launch_foreground);
+                builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.scann_icon));
+                builder.setAutoCancel(true);
+
+                NotificationManagerCompat managerCompat = NotificationManagerCompat.from(MainActivity.this);
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                managerCompat.notify(1, builder.build());
+
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (!mScanLeDevice.isScanning()) {
                         startScan();
