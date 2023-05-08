@@ -66,7 +66,7 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-    private void loginUser() {
+    public void loginUser() {
 
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();

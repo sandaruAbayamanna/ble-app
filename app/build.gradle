@@ -8,10 +8,14 @@ android {
     namespace 'com.example.bleapp'
     compileSdk 33
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     defaultConfig {
         applicationId "com.example.bleapp"
         minSdk 21
-        targetSdk 33
+        targetSdk 29
         versionCode 1
         versionName "1.0"
 
@@ -41,9 +45,23 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'com.google.firebase:firebase-perf:20.3.1'
     implementation 'com.google.firebase:firebase-auth:21.0.3'
+
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "androidx.test:rules:1.5.0"
+    // Optional -- Mockito framework
+    testImplementation "org.mockito:mockito-core:5.3.1"
+    testImplementation 'androidx.test.ext:junit-ktx:1.1.5'
+    testImplementation 'org.robolectric:robolectric:4.4'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation "androidx.test:runner:1.5.2"
+    androidTestImplementation "androidx.test:rules:1.5.0"
+    androidTestImplementation "org.mockito:mockito-core:5.3.1"
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.5'
+    androidTestImplementation 'org.robolectric:robolectric:4.4'
+
     implementation 'pub.devrel:easypermissions:3.0.0'
 
 }
