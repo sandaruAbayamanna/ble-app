@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,6 +30,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -219,8 +223,21 @@ public class MainActivity extends AppCompatActivity {
                         bleDevice item = (bleDevice) parent.getItemAtPosition(position);
                         //Toast.makeText(MainActivity.this, item.getAddress(), Toast.LENGTH_SHORT).show();
 
-                        // Create an Intent to start the authentication activity
-                        Intent intent = new Intent(MainActivity.this,AuthActivity.class);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                if(currentUser==null){
+                                    startActivity(new Intent(MainActivity.this,AuthActivity.class));
+                                }else{
+                                    startActivity(new Intent(MainActivity.this,ListNotesActivity.class));
+                                }
+                                finish();
+                            }
+                        },1000);
+
+                       /* // Create an Intent to start the authentication activity
+                        Intent intent = new Intent(MainActivity.this,AuthActivity.class);*/
 
                         //using shared preferences to store device name& address
                         SharedPreferences sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE);
@@ -236,8 +253,8 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra(DevHomeActivity.DEVICE_NAME,item.getName());
                         intent.putExtra(DevHomeActivity.DEVICE_ADDRESS,item.getAddress());*/
 
-                        // Start the authentication activity
-                        startActivity(intent);
+                       /* // Start the authentication activity
+                        startActivity(intent);*/
                     }
                 });
             }

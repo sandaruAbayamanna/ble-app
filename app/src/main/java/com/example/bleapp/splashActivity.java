@@ -23,6 +23,7 @@ public class splashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 Intent spl = new Intent(splashActivity.this,MainActivity.class);
                 startActivity(spl);
                 //back btn issue ==>solution
