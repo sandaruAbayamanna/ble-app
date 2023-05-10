@@ -1,3 +1,4 @@
+/*
 package com.example.bleapp;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 
 public class DevHomeActivity extends AppCompatActivity {
 
-    /*static String DEVICE_NAME = "DEVICE_NAME";
-    static String DEVICE_ADDRESS = "DEVICE_ADDRESS";*/
+    */
+/*static String DEVICE_NAME = "DEVICE_NAME";
+    static String DEVICE_ADDRESS = "DEVICE_ADDRESS";*//*
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +32,11 @@ public class DevHomeActivity extends AppCompatActivity {
         TextView devName = findViewById(R.id.dev_name_text);
         TextView editAddr= findViewById(R.id.addr_edit);
 
-       /* // Get the device address & Name from the Intent
+       */
+/* // Get the device address & Name from the Intent
         String deviceAddress = getIntent().getStringExtra("deviceAddress");
-        String dev_name = getIntent().getStringExtra("dev_name");*/
+        String dev_name = getIntent().getStringExtra("dev_name");*//*
+
 
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
         String deviceName = sharedPreferences.getString("device_name", "unknown Device");
@@ -62,4 +67,4 @@ public class DevHomeActivity extends AppCompatActivity {
         });
 
     }
-}
+}*/

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -30,6 +31,9 @@ public class ListNotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_notes);
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this);
 
         recyclerView = findViewById(R.id.addRecyclerView);
         addBtn = findViewById(R.id.add_note_btn);
@@ -51,16 +55,16 @@ public class ListNotesActivity extends AppCompatActivity {
         signOutBtn.setOnClickListener(v -> showMenu());
 
     }
-
-    private void showMenu() {
-        PopupMenu popupMenu = new PopupMenu(ListNotesActivity.this,signOutBtn);
+    public PopupMenu popupMenu;
+    public void showMenu() {
+        popupMenu = new PopupMenu(ListNotesActivity.this,signOutBtn);
         popupMenu.getMenu().add("Logout");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getTitle()=="Logout"){
-                    FirebaseAuth.getInstance().signOut();;
+                    FirebaseAuth.getInstance().signOut();
                     startActivity(new Intent(ListNotesActivity.this,MainActivity.class));
                     finish();
                     return true;
