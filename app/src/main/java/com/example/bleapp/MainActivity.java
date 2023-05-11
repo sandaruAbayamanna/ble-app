@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -298,6 +299,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         stopScan();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("This action will exit the application Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
+
     }
 
     @Override

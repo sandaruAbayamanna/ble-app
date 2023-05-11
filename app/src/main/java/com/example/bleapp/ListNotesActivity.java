@@ -85,8 +85,21 @@ public class ListNotesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.addNote);
         Intent i =new Intent(ListNotesActivity.this, AddNoteActivity.class);
+        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // Create an intent to navigate back to the previous activity
+        Intent intent = new Intent(ListNotesActivity.this, MainActivity.class);
+        startActivity(intent);
+
+        // Finish the current activity to remove it from the stack
+        finish();
     }
 }

@@ -7,38 +7,50 @@
     tools:context=".ListNotesActivity">
 
     <RelativeLayout
+        android:id="@+id/title_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/title_bar_layout">
+        android:layout_height="90dp"
+        android:background="@color/gray"
+        android:elevation="@dimen/cardview_compat_inset_shadow">
 
 
+        <TextView
+            android:id="@+id/page_title"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="20dp"
+            android:text="Notes"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/page_title"
-        android:text="Notes"
-        android:textSize="32sp"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
-    <ImageButton
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:id="@+id/menu_btn"
-        android:src="@drawable/ic_baseline_menu_24"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        app:tint="@color/black"/>
+        <ImageButton
+            android:id="@+id/menu_btn"
+            android:layout_width="74dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="162dp"
+            android:layout_marginEnd="17dp"
+            android:layout_marginBottom="23dp"
+            android:layout_toEndOf="@+id/page_title"
+            android:src="@drawable/ic_baseline_menu_24"
+            app:tint="@color/black" />
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/addRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="672dp"
         android:layout_below="@+id/title_bar_layout"
-        android:layout_marginTop="-3dp" />
+        android:layout_marginTop="0dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_note_btn"
@@ -48,6 +60,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="28dp"
+        android:background="@color/light_blue"
         android:backgroundTint="@color/browser_actions_bg_grey"
         android:src="@drawable/ic_action_add" />
 
