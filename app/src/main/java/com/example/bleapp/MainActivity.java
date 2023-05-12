@@ -305,11 +305,13 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         new AlertDialog.Builder(this)
-                .setMessage("This action will exit the application Are you sure you want to exit?")
+                .setMessage("Are you sure you want to exit?")
                 .setCancelable(false)
                 .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity();//clear all the activities  in the backStack
+                        System.exit(0);
                         finish();
                     }
                 })
