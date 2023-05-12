@@ -36,23 +36,9 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+
         // Initialize Firebase
         FirebaseApp.initializeApp(this);
-
-     /*   // Get references to the EditText and Button
-        mPasswordEdit = findViewById(R.id.password_edit);
-        Button mAuthButton = findViewById(R.id.auth_button);
-
-        // Set the device name in the TextView
-        TextView deviceNameText = findViewById(R.id.device_name_text);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        String deviceName = sharedPreferences.getString("device_name", "unknown Device");
-
-        deviceNameText.setText(deviceName);
-
-        //deviceNameText.setText(deviceName);
-        Log.i("device name","Dev name is : "+deviceName);*/
 
         emailEditText = findViewById(R.id.email_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
@@ -65,7 +51,6 @@ public class AuthActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
         String deviceName = sharedPreferences.getString("device_name", "unknown Device");
         String deviceAddress = sharedPreferences.getString("device_address", "Address Not found!!");
-
 
         devNameText.setText(deviceName);
         devAddrText.setText(deviceAddress);
@@ -137,6 +122,16 @@ public class AuthActivity extends AppCompatActivity {
             return false;
         }
         return true;
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // Create an intent to navigate back to the previous activity
+        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+        startActivity(intent);
 
     }
 }

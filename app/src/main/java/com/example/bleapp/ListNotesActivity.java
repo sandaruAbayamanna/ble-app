@@ -99,7 +99,5 @@ public class ListNotesActivity extends AppCompatActivity {
         Intent intent = new Intent(ListNotesActivity.this, MainActivity.class);
         startActivity(intent);
 
-        // Finish the current activity to remove it from the stack
-        finish();
     }
 }
