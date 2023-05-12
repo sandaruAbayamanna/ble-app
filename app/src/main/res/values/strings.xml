@@ -22,7 +22,7 @@
     <string name="view_notes">View Notes</string>
     <string name="addNoteBtn">Add Note</string>
     <string name="note_details">Note Details</string>
-    <string name="add_note">Add Note</string>
+    <string name="add_note">Add Title Here</string>
     <string name="title_demo">Title Demo</string>
     <string name="details_demo">Details Demo</string>
     <string name="sample_note_title">sample note title</string>

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -46,13 +47,12 @@ public class MainActivity extends AppCompatActivity {
     //init scanLeDevice class
     private scanLeDevice mScanLeDevice;
 
-    TextView BluStatus, DeviceList;
+    TextView BluStatus;
     ImageView iconB;
     Button onBtn, offBtn, scannerBtn;
 
     private HashMap<String, bleDevice> mBleDevicesHashMap;
     private ArrayList<bleDevice> mBleDevicesArrayList;
-    private listAdapterBleDevices adapter;
     private ListView listView;
     private static final int PERMISSION_REQUEST_CODE = 2;
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -169,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //set notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "MyNotification");
                 builder.setContentTitle("Scanning");
                 builder.setContentText("ROOKIE Scanning The BLE Devices ");
@@ -201,11 +202,10 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Log.i("btn","scanner btn called");
-                /*listView = findViewById(R.id.list_view);*/
                 List<bleDevice> devList= new ArrayList<>();
+
                 //adding lists
                 //how should add????
-                // devList.add(new bleDevice(device));
                 for (bleDevice device : mBleDevicesArrayList){
                     devList.add(device);
                     Log.i("dev List","adding to the list view today##");
@@ -236,25 +236,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         },1000);
 
-                       /* // Create an Intent to start the authentication activity
-                        Intent intent = new Intent(MainActivity.this,AuthActivity.class);*/
-
                         //using shared preferences to store device name& address
                         SharedPreferences sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString("device_name", item.getName());
                         editor.putString("device_address", item.getAddress());
                         editor.apply();
-                       /* //pass the device name & Address to the AuthActivity
-                        intent.putExtra(AuthActivity.DEVICE_NAME,item.getName());
-                        intent.putExtra(AuthActivity.DEVICE_ADDRESS,item.getAddress());
-
-                        //pass the device name & Address to the DevHomeActivity
-                        intent.putExtra(DevHomeActivity.DEVICE_NAME,item.getName());
-                        intent.putExtra(DevHomeActivity.DEVICE_ADDRESS,item.getAddress());*/
-
-                       /* // Start the authentication activity
-                        startActivity(intent);*/
                     }
                 });
             }
@@ -312,6 +299,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         stopScan();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity();//clear all the activities  in the backStack
+                        System.exit(0);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No",null)
+                .show();
+
     }
 
     @Override

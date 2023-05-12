@@ -21,52 +21,46 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.mindrot.jbcrypt.BCrypt;
 
 public class AuthActivity extends AppCompatActivity {
-
-    private BluetoothDevice mDevice;
-    private EditText mPasswordEdit;
-
     EditText emailEditText,passwordEditText;
     Button loginBtn;
     ProgressBar progressBar;
-    TextView createAccountBtnTextView;
+    TextView createAccountBtnTextView,devNameText,devAddrText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-     /*   // Get references to the EditText and Button
-        mPasswordEdit = findViewById(R.id.password_edit);
-        Button mAuthButton = findViewById(R.id.auth_button);
-
-        // Set the device name in the TextView
-        TextView deviceNameText = findViewById(R.id.device_name_text);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
-        String deviceName = sharedPreferences.getString("device_name", "unknown Device");
-
-        deviceNameText.setText(deviceName);
-
-        //deviceNameText.setText(deviceName);
-        Log.i("device name","Dev name is : "+deviceName);*/
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this);
 
         emailEditText = findViewById(R.id.email_edit_text);
         passwordEditText = findViewById(R.id.password_edit_text);
         loginBtn = findViewById(R.id.login_btn);
         progressBar = findViewById(R.id.progress_bar);
         createAccountBtnTextView = findViewById(R.id.create_account_text_view_btn);
+        devNameText = findViewById(R.id.devName);
+        devAddrText=findViewById(R.id.devAddr);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        String deviceName = sharedPreferences.getString("device_name", "unknown Device");
+        String deviceAddress = sharedPreferences.getString("device_address", "Address Not found!!");
+
+        devNameText.setText(deviceName);
+        devAddrText.setText(deviceAddress);
         
         loginBtn.setOnClickListener(v -> loginUser());
         createAccountBtnTextView.setOnClickListener(v -> startActivity(new Intent(AuthActivity.this,CreateAccountActivity.class)));
 
     }
 
-    private void loginUser() {
+    public void loginUser() {
 
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -128,6 +122,16 @@ public class AuthActivity extends AppCompatActivity {
             return false;
         }
         return true;
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // Create an intent to navigate back to the previous activity
+        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+        startActivity(intent);
 
     }
 }

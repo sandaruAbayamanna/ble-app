@@ -89,6 +89,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/createAcc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/form_layout"
@@ -107,6 +108,29 @@
             android:layout_height="wrap_content"
             android:text="Create Account"
             android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createAcc"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/devName"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/devAddr"/>
+
+
+
 
     </LinearLayout>
 
