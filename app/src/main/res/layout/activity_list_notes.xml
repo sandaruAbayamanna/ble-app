@@ -30,7 +30,7 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="5dp"
-            android:text="TextView" />
+            android:text="@string/textview" />
 
         <TextView
             android:id="@+id/page_title"
@@ -42,7 +42,7 @@
             android:layout_marginStart="157dp"
             android:layout_marginTop="23dp"
             android:layout_marginBottom="29dp"
-            android:text="Notes"
+            android:text="@string/notes"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="32sp"
