@@ -1,5 +1,9 @@
 package com.example.bleapp;
 
+import static android.text.method.TextKeyListener.clear;
+
+import static java.util.Collections.addAll;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
@@ -21,6 +25,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private static final int PERMISSION_REQUEST_CODE = 2;
     private final static String TAG = MainActivity.class.getSimpleName();
+
+    private ProgressBar progressBar;
 
 
     ///Requesting location permission
@@ -114,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
 
         //setting up the bluetooth icon
         if (bluetoothAdapter.isEnabled()) {
-            iconB.setImageResource(R.drawable.ic_action_on);
+            iconB.setImageResource(R.drawable.bon);
         } else {
-            iconB.setImageResource(R.drawable.ic_action_off);
+            iconB.setImageResource(R.drawable.bdeactivate);
         }
 
         //on button
@@ -169,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                // Show the custom dialog with a timeout of 2 seconds (adjust the duration as needed)
+                showCustomDialogWithTimeout(2000);
+
                 //set notification
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this, "MyNotification");
                 builder.setContentTitle("Scanning");
@@ -191,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 managerCompat.notify(1, builder.build());
 
 
+                //start the scan
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (!mScanLeDevice.isScanning()) {
                         startScan();
@@ -247,15 +258,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
 
     public void addDevice(BluetoothDevice device, int rssi) {
-        if (!mBleDevicesArrayList.contains(device)){
+
+        /*if (!mBleDevicesArrayList.contains(device)){
             bleDevice btleDevice = new bleDevice(device);
             mBleDevicesArrayList.add(btleDevice);
-        }
+        }*/
         /*//Log.i("in the adapter class","getting results to the add method" +device);//ok
         String address = device.getAddress();
 
@@ -276,6 +286,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //adapter.notifyDataSetChanged();*/
+
+        String address = device.getAddress();
+
+        if (!mBleDevicesHashMap.containsKey(address)) {
+            bleDevice btleDevice = new bleDevice(device);
+            btleDevice.setRssi(rssi);
+
+            mBleDevicesHashMap.put(address, btleDevice);
+            mBleDevicesArrayList.add(btleDevice);
+
+            listAdapterBleDevices adapter = (listAdapterBleDevices) listView.getAdapter();
+            if (adapter != null) {
+                adapter.updateData(mBleDevicesArrayList);
+            }
+        } else {
+            Objects.requireNonNull(mBleDevicesHashMap.get(address)).setRssi(rssi);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -299,6 +326,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         stopScan();
+    }
+
+    private void showCustomDialogWithTimeout(long duration) {
+        // Create the custom dialog
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        View dialogView = getLayoutInflater().inflate(R.layout.progressbar_dialog, null);
+        ProgressBar progressBar = dialogView.findViewById(R.id.progressBar);
+        TextView messageTextView = dialogView.findViewById(R.id.textView5);
+        builder.setView(dialogView);
+        AlertDialog dialog = builder.create();
+
+        // Show the dialog
+        dialog.show();
+
+        // Set a timeout to automatically dismiss the dialog
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Dismiss the dialog
+                dialog.dismiss();
+            }
+        }, duration);
     }
 
     @Override

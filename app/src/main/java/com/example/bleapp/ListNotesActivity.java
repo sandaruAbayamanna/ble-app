@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,9 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,7 @@ public class ListNotesActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ImageButton addBtn,signOutBtn;
+    TextView userEmailTextView;
     Adapter adapter;
     List<NoteModel> noteModelList;
     @Override
@@ -38,6 +42,7 @@ public class ListNotesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.addRecyclerView);
         addBtn = findViewById(R.id.add_note_btn);
         signOutBtn = findViewById(R.id.menu_btn);
+        userEmailTextView = findViewById(R.id.textView4);
 
         NoteDatabaseHelper noteDatabaseHelper = new NoteDatabaseHelper(this);
         noteModelList = noteDatabaseHelper.getNote();
@@ -49,6 +54,17 @@ public class ListNotesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new Adapter(this,noteModelList);
         recyclerView.setAdapter(adapter);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user!= null ){
+            String userEmail = user.getEmail();
+
+            String formattedUserName=userEmail.split("@")[0];
+            userEmailTextView.setText(formattedUserName);
+            Log.i("list notes","logged username is :"+formattedUserName);
+        }else {
+            userEmailTextView.setText("Unknown_UserName");
+        }
 
 
         addBtn.setOnClickListener(v -> addNewActivity());

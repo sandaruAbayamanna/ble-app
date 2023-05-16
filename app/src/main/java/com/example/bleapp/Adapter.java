@@ -66,7 +66,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(itemView.getContext(), "item clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(v.getContext(),DetailActivity.class);
                     intent.putExtra("ID",noteModels.get(getAdapterPosition()).getId());
                     v.getContext().startActivity(intent);
