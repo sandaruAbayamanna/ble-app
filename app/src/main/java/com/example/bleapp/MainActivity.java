@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -134,9 +135,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!bluetoothAdapter.isEnabled()) {
                     Toast.makeText(MainActivity.this, "Turning On Bluetooth", Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(intent, REQUEST_ENABLE_BT);
+                    iconB.setImageResource(R.drawable.bon);
                 } else {
                     Toast.makeText(MainActivity.this, "Bluetooth Is Already ON", Toast.LENGTH_SHORT).show();
                 }
@@ -151,12 +152,33 @@ public class MainActivity extends AppCompatActivity {
                 if (bluetoothAdapter.isEnabled()) {
 
                     bluetoothAdapter.disable();
+                    iconB.setImageResource(R.drawable.bdeactivate);
                     Toast.makeText(MainActivity.this, "Turning Bluetooth OFF.....", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(MainActivity.this, "Bluetooth Is Already OFF", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        BluetoothManager bluetoothManager = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            bluetoothManager = getSystemService(BluetoothManager.class);
+        }
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+
+        if (requestCode == REQUEST_ENABLE_BT) {
+            // Update Bluetooth icon based on the enabled state
+            if (bluetoothAdapter.isEnabled()) {
+                iconB.setImageResource(R.drawable.bon);
+            } else {
+                iconB.setImageResource(R.drawable.bdeactivate);
+            }
+        }
     }
 
     @Override
