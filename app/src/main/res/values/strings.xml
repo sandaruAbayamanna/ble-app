@@ -28,4 +28,8 @@
     <string name="sample_note_title">sample note title</string>
     <string name="_22_1_2022">22/1/2022</string>
     <string name="_12_25">12:25</string>
+    <string name="availability">availability</string>
+    <string name="textview">TextView</string>
+    <string name="notes">Notes</string>
+    <string name="loading">Loading....</string>
 </resources>

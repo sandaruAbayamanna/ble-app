@@ -26,26 +26,9 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
     public static String COLUMN_DATE= "NotesDate";
     public static String COLUMN_TIME= "NotesTime";
 
-    /*public static final String USER_TABLE_NAME = "users";
-    public static String USER_COLUMN_ID = "userId";
-    public static String COLUMN_DEVICENAME = "devicename";
-    public static String COLUMN_PASSWORD_HASH = "password_hash";
-    public static String COLUMN_SALT = "salt";*/
-
-   /* String salt = BCrypt.gensalt();*/
     public NoteDatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
-
-    /*//create user table schema
-    public static final String query_user =
-            "CREATE TABLE " + USER_TABLE_NAME + " (" +
-                    USER_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    COLUMN_DEVICENAME + " TEXT," +
-                    COLUMN_PASSWORD_HASH + " TEXT NOT NULL, " +
-                    COLUMN_SALT + " TEXT NOT NULL)";*/
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         //create note table
@@ -57,10 +40,6 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                         COLUMN_TIME + " TEXT" +")";
 
         db.execSQL(query);
-
-      /*  //create user table
-        db.execSQL(query_user);*/
-
 
     }
 
@@ -149,84 +128,10 @@ public class NoteDatabaseHelper extends SQLiteOpenHelper {
                 cursor.getString(3),
                 cursor.getString(4));
     }
-
-
-
     void deleteNote(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(TABLE_NAME,COLUMN_ID+"=?", new String[]{String.valueOf(id)});
         db.close();
 
     }
-
-   /* public void addUser(*//*String deviceName,*//*String password,User user){
-
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_DEVICENAME, user.getDeviceName());
-        values.put(COLUMN_PASSWORD_HASH, hashPassword(password));
-        values.put(COLUMN_SALT, salt);
-        db.insert(USER_TABLE_NAME, null, values);
-    }
-
-    private String hashPassword(String password) {
-        // Use a secure hashing algorithm such as bcrypt to hash the password
-        // For example:
-
-        String hashedPassword = BCrypt.hashpw(password, salt);
-
-        *//*SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("salt", salt);
-        editor.putString("hashedPassword", hashedPassword);
-        editor.apply();*//*
-
-        return hashedPassword;
-
-    }
-
-    public User getUser(String deviceName) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        String[] projection = {COLUMN_DEVICENAME, COLUMN_PASSWORD_HASH, COLUMN_SALT};
-        String selection = COLUMN_DEVICENAME + " = ?";
-        String[] selectionArgs = {deviceName};
-
-        Cursor cursor = db.query(
-                USER_TABLE_NAME,
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                null
-        );
-
-        User user = null;
-        if (cursor.moveToFirst()) {
-            String storedSalt = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SALT));
-            String storedHashedPassword = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PASSWORD_HASH));
-            user = new User(deviceName, storedSalt, storedHashedPassword);
-        }
-
-        cursor.close();
-        db.close();
-
-        return user;
-    }
-
-    public boolean authenticateUser(String deviceName, String password) {
-         SQLiteDatabase db = this.getReadableDatabase();
-            String[] projection = { COLUMN_PASSWORD_HASH };
-            String selection = COLUMN_DEVICENAME + " = ?";
-            String[] selectionArgs = { deviceName };
-            Cursor cursor = db.query(USER_TABLE_NAME, projection, selection, selectionArgs, null, null, null);
-            if (cursor.moveToFirst()) {
-                String passwordHash = cursor.getString(0);
-                cursor.close();
-                return BCrypt.checkpw(password, passwordHash);
-            }
-
-        return false;
-    }*/
 }

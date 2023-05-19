@@ -33,6 +33,13 @@ public class listAdapterBleDevices extends BaseAdapter {
 
     }
 
+    public void updateData(ArrayList<bleDevice> data){
+
+        mBleDevicesArrayList.clear();
+        mBleDevicesArrayList.addAll(data);
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public int getCount() {
