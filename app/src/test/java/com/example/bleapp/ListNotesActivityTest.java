@@ -6,8 +6,11 @@ import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.annotation.LooperMode.Mode.PAUSED;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -27,6 +30,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowLooper;
 
 import java.util.List;
 
@@ -87,8 +91,27 @@ public class ListNotesActivityTest {
         EditText titleEditText = activity.findViewById(R.id.addNote);
         EditText descEditText = activity.findViewById(R.id.noteDetails);
 
-        titleEditText.setText("");
-        descEditText.setText("");
+        titleEditText.setText("sample title");
+        descEditText.setText("sample content");
+
+        // Simulate click event on the "Add" button
+        Button addButton = activity.findViewById(R.id.addNoteBtn);
+        addButton.performClick();
+
+        // Allow pending tasks in the main looper to execute
+        Robolectric.flushForegroundThreadScheduler();
+
+
+        // Verify that the notes details are correctly added to the SQLite database
+        NoteDatabaseHelper databaseHelper = new NoteDatabaseHelper(activity);
+        SQLiteDatabase database = databaseHelper.getReadableDatabase();
+        Cursor cursor = database.rawQuery("SELECT * FROM TABLE_NAME WHERE COLUMN_TITLE = 'Sample Title'", null);
+        int rowCount = cursor.getCount();
+        cursor.close();
+        database.close();
+        databaseHelper.close();
+
+        assertEquals(1, rowCount);
 
 
     }
