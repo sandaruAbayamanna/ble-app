@@ -40,6 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.158" />
+        app:layout_constraintVertical_bias="0.158" >
+    </pl.droidsonroids.gif.GifImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

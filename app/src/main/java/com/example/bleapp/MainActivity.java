@@ -391,6 +391,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private boolean progressBarDialogIsShowing() {
+        View dialogView = getLayoutInflater().inflate(R.layout.progressbar_dialog, null);
+        ProgressBar progressBar = dialogView.findViewById(R.id.progressBar);
+
+        if (progressBar != null && progressBar.isInLayout()) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

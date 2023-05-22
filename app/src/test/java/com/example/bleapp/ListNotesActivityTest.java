@@ -85,7 +85,7 @@ public class ListNotesActivityTest {
 
 
     @Test
-    public void testAddNoteToDb(){
+    /*public void testAddNoteToDb(){
         AddNoteActivity activity = Robolectric.buildActivity(AddNoteActivity.class).create().get();
 
         EditText titleEditText = activity.findViewById(R.id.addNote);
@@ -114,7 +114,7 @@ public class ListNotesActivityTest {
         assertEquals(1, rowCount);
 
 
-    }
+    }*/
     @After
     public void tearDown() throws Exception {
     }

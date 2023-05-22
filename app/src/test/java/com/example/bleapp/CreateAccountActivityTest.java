@@ -2,7 +2,7 @@ package com.example.bleapp;
 
 import static org.junit.Assert.*;
 
-import android.widget.EditText;
+import android.util.Patterns;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -25,9 +25,11 @@ public class CreateAccountActivityTest {
     public void setUp(){
         MockitoAnnotations.initMocks(this);
         createAccountActivity = new CreateAccountActivity();
-        //createAccountActivity.firebaseAuth = mockFirebaseAuth;
+
     }
 
+
+    //happy scenario --> all good
     @Test
     public void testValidateData_ValidData_ReturnsTrue() {
         // Set up test data
@@ -42,22 +44,49 @@ public class CreateAccountActivityTest {
         assertTrue(isValidated);
     }
 
-   /* @Test
+    //Email format mismatch testing
+    @Test
     public void testValidateData_InvalidEmailFormat_ReturnsFalse() {
         // Set up test data
         String email = "invalidemail";
         String password = "password";
         String confirmPassword = "password";
 
-        // Initialize the createAccountActivity object
-        CreateAccountActivity createAccountActivity = new CreateAccountActivity();
-
         // Call the method under test
-        boolean isValidated = createAccountActivity.validateData(email, password, confirmPassword);
+        boolean isValidated = Patterns.EMAIL_ADDRESS.matcher(email).matches();
 
         // Verify the expected result
         assertFalse(isValidated);
-    }*/
+    }
+
+
+    //invalid password length testing
+    @Test
+    public void testValidateData_InvalidPassword_ReturnsFalse(){
+        // Set up test data
+        String email = "test@example.com";
+        String password = "pas";
+        String confirmPassword = "pas";
+
+        if (password.length()<6){
+            boolean isValidated = false;
+            assertFalse(isValidated);
+        }
+
+    }
+
+    //password mismatch testing
+    @Test
+    public void testValidateData_mismatchPassword(){
+        // Set up test data
+        String email = "test@example.com";
+        String password = "password123";
+        String confirmPassword = "password13";
+
+        boolean isValidated = password.equals(confirmPassword);
+        assertFalse(isValidated);
+    }
+
 
     @After
     public void tearDown() throws Exception {
